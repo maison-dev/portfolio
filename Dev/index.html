@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Portfolio - Création de Sites Vitrines</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- CSS personnalisé -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-white text-gray-800 font-sans">
+  <!-- Header -->
+  <header class="w-full bg-gray-800 shadow-md fixed top-0 left-0 z-50">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-2xl font-bold text-white">Mon Portfolio</h1>
+      <ul class="flex space-x-6 text-gray-700 font-medium">
+        <li><a href="#portfolio" class="hover:text-blue-600">Projets</a></li>
+        <li><a href="#about" class="hover:text-blue-600">À propos</a></li>
+        <li><a href="#services" class="hover:text-blue-600">Services</a></li>
+        <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="h-screen flex flex-col justify-center items-center text-center px-6 hero-bg">
+    <h2 class="text-4xl md:text-6xl font-bold text-white-900 mb-4">Création de Sites Vitrines</h2>
+    <p class="text-lg md:text-xl text-white-600 mb-6">Un design moderne, épuré et adapté à vos besoins.</p>
+    <a href="#portfolio" class="bg-blue-600 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-700 transition">Découvrir mes projets</a>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-center mb-12">Mes Projets</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Projet 1 -->
+        <div class="bg-gray-800 shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition card-hover">
+          <img src="images/latabledemarie.jpg" alt="Restaurant" class="w-full">
+          <div class="p-6">
+            <h4 class="text-xl font-semibold text-white mb-2">La Table de Marie</h4>
+            <p class="text-gray-300 mb-4">Site vitrine pour un restaurant avec menu et réservation en ligne.</p>
+            <a target="_blank" href="projets/restaurant/latabledemarie.html" class="text-blue-600 font-medium hover:underline">Voir le site</a>
+          </div>
+        </div>
+        <!-- Projet 2 -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition card-hover">
+          <img src="https://via.placeholder.com/600x400" alt="Coach" class="w-full">
+          <div class="p-6">
+            <h4 class="text-xl font-semibold mb-2">Julie Coach de Vie</h4>
+            <p class="text-gray-600 mb-4">Site vitrine pour coach avec prise de rendez-vous et blog.</p>
+            <a href="#" class="text-blue-600 font-medium hover:underline">Voir le site</a>
+          </div>
+        </div>
+        <!-- Projet 3 -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition card-hover">
+          <img src="https://via.placeholder.com/600x400" alt="Artisan" class="w-full">
+          <div class="p-6">
+            <h4 class="text-xl font-semibold mb-2">Plomberie Martin</h4>
+            <p class="text-gray-600 mb-4">Site vitrine pour artisan avec demande de devis et appel direct.</p>
+            <a href="#" class="text-blue-600 font-medium hover:underline">Voir le site</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section id="about" class="py-20 container mx-auto px-6 text-center">
+    <h3 class="text-3xl font-bold mb-6">À propos</h3>
+    <p class="text-gray-600 max-w-2xl mx-auto">
+      Je conçois des sites vitrines modernes et efficaces pour les petites entreprises, indépendants et artisans. 
+      Mon objectif : offrir une présence en ligne professionnelle, claire et impactante.
+    </p>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-20 bg-gray-800">
+    <div class="container mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold text-white mb-12">Mes Services</h3>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white p-8 shadow rounded-xl hover:shadow-lg transition">
+          <h4 class="text-xl font-semibold mb-4">Pack Starter</h4>
+          <p class="text-gray-600 mb-4">1 à 2 pages, design simple et moderne.</p>
+          <p class="text-lg font-bold text-gray-900">150 €</p>
+        </div>
+        <div class="bg-white p-8 shadow rounded-xl hover:shadow-lg transition">
+          <h4 class="text-xl font-semibold mb-4">Pack Pro</h4>
+          <p class="text-gray-600 mb-4">3 pages et plus, design personnalisé et responsive.</p>
+          <p class="text-lg font-bold text-gray-900">A partir de 300 €</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 container mx-auto px-6 text-center">
+    <h3 class="text-3xl font-bold mb-6">Me Contacter</h3>
+    <p class="text-gray-600 mb-6">Parlez-moi de votre projet en remplissant le formulaire ci-dessous :</p>
+    <form class="max-w-xl mx-auto space-y-4">
+      <input type="text" placeholder="Nom" class="w-full p-3 border rounded-lg">
+      <input type="email" placeholder="Email" class="w-full p-3 border rounded-lg">
+      <textarea placeholder="Votre message" class="w-full p-3 border rounded-lg"></textarea>
+      <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">Envoyer</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-6 text-center">
+    <p>&copy; 2025 Mon Portfolio. Tous droits réservés.</p>
+  </footer>
+</body>
+</html>
