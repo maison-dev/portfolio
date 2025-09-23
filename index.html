@@ -95,16 +95,16 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="py-20 container mx-auto px-6 text-center">
+<section id="contact" class="py-20 container mx-auto px-6 text-center">
     <h3 class="text-3xl font-bold mb-6">Me Contacter</h3>
     <p class="text-gray-600 mb-6">Parlez-moi de votre projet en remplissant le formulaire ci-dessous :</p>
-    <form class="max-w-xl mx-auto space-y-4">
-      <input type="text" placeholder="Nom" class="w-full p-3 border rounded-lg">
-      <input type="email" placeholder="Email" class="w-full p-3 border rounded-lg">
-      <textarea placeholder="Votre message" class="w-full p-3 border rounded-lg"></textarea>
+    <form action="https://formspree.io/f/mkgqnogd" method="POST" class="max-w-xl mx-auto space-y-4">
+      <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded-lg">
+      <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded-lg">
+      <textarea name="message" placeholder="Votre message" class="w-full p-3 border rounded-lg"></textarea>
       <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">Envoyer</button>
     </form>
-  </section>
+</section>
 
   <!-- Footer -->
   <footer class="bg-gray-900 text-gray-300 py-6 text-center">
