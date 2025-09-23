@@ -1,0 +1,25 @@
+.input {
+  @apply w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-500;
+}
+.btn {
+  @apply w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition;
+}
+/* CSS personnalisé (en plus de Tailwind) */
+
+/* Animation douce pour les cartes de projets */
+.card-hover {
+  transition: transform 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+}
+
+.hero-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/intro-perso.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: white;
+}
