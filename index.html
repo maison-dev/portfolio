@@ -98,13 +98,42 @@
 <section id="contact" class="py-20 container mx-auto px-6 text-center">
     <h3 class="text-3xl font-bold mb-6">Me Contacter</h3>
     <p class="text-gray-600 mb-6">Parlez-moi de votre projet en remplissant le formulaire ci-dessous :</p>
-    <form action="https://formspree.io/f/mkgqnogd" method="POST" class="max-w-xl mx-auto space-y-4">
-      <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded-lg">
-      <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded-lg">
-      <textarea name="message" placeholder="Votre message" class="w-full p-3 border rounded-lg"></textarea>
+    <form id="contact-form" action="https://formspree.io/f/mkgqnogd" method="POST" class="max-w-xl mx-auto space-y-4">
+      <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded-lg" required>
+      <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded-lg" required>
+      <textarea name="message" placeholder="Votre message" class="w-full p-3 border rounded-lg" required></textarea>
       <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">Envoyer</button>
     </form>
+    <!-- Pop-up de confirmation -->
+    <div id="confirmation-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h4 class="text-2xl font-bold mb-4">Merci pour votre message !</h4>
+        <p class="mb-4">Je vous répondrai dès que possible.</p>
+        <button onclick="document.getElementById('confirmation-popup').classList.add('hidden')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Fermer</button>
+      </div>
+    </div>
 </section>
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const action = form.action;
+  const response = await fetch(action, {
+    method: 'POST',
+    body: data,
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+  if (response.ok) {
+    form.reset();
+    document.getElementById('confirmation-popup').classList.remove('hidden');
+  } else {
+    alert("Une erreur est survenue. Merci de réessayer.");
+  }
+});
+</script>
 
   <!-- Footer -->
   <footer class="bg-gray-900 text-gray-300 py-6 text-center">
