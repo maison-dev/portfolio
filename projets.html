@@ -30,17 +30,10 @@
       </div>
 
   </main>
-   <div id="footer"></div>
   <script>
     fetch("nav.html").then(r => r.text()).then(d => {
       document.getElementById("nav").innerHTML = d;
     });
-
-    fetch("footer.html").then(r => r.text()).then(d => {
-      document.getElementById("footer").innerHTML = d;
-    });
-    
- 
   </script>
 </body>
 </html>

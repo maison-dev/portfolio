@@ -50,14 +50,9 @@
 </section>
 <!-- ...existing code... -->
   </main>
-  <div id="footer"></div>
   <script>
     fetch("nav.html").then(r => r.text()).then(d => {
       document.getElementById("nav").innerHTML = d;
-    });
-
-    fetch("footer.html").then(r => r.text()).then(d => {
-      document.getElementById("footer").innerHTML = d;
     });
     // Gestion du formulaire de contact
     document.getElementById('contact-form').addEventListener('submit', async function(e) {

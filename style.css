@@ -32,8 +32,18 @@ a{
   .sidebar .logo {
     font-size: 25px;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
   }
+  /* Assure que le lien de la logo hérite du même style que les liens de la sidebar */
+  .sidebar .logo a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+  }
+  .sidebar .logo a:hover {
+    color: #ea66e1ac;
+  }
+/* ----------------- */
   .sidebar ul {
     list-style: none;
     padding: 0;
@@ -80,8 +90,16 @@ a{
   }
 
   .presentation {
-  padding: 15px;
-}
+  padding: 10px 20px;
+  }
+  .presentation h2{
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+
+  .presentation p {
+    margin: 0;
+  }
 
 /* ----- Hero -----*/
     .hero {
