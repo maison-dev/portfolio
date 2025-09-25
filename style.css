@@ -254,7 +254,7 @@ a{
 }
 
 .contact-form button {
-  background: linear-gradient(44deg, #a46bff 0%, #eeaecabf 100%);
+  background: linear-gradient(44deg, #a46bffa6 0%, #eeaecabf 100%);
   color: #fff;
   border: none;
   border-radius: 7px;
@@ -262,12 +262,12 @@ a{
   font-size: 1.1em;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 1s;
   margin-top: 8px;
 }
 
 .contact-form button:hover {
-  background: linear-gradient(44deg, #eeaecabf 0%, #a46bff 100%);
+  background: linear-gradient(44deg, #eeaecabf 0%, #a46bffb0 100%);
 }
 
 /* Pop-up confirmation */
