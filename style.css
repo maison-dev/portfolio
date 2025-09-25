@@ -1,9 +1,16 @@
-body {
+html, body {
   margin: 0;
   font-family: "Bebas Neue", sans-serif;
   font-weight: 100;
   font-style: normal;
-  display: flex;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh; /* pour iOS 16+ */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #fff; /* ou ta couleur de fond */
+  overflow-x: hidden;
   font-size: 1.3em;
 }
 a{
@@ -52,6 +59,8 @@ a{
   padding: 10px 0;
   display: flex;
   align-items: center;
+    max-height: 100dvh;
+  overflow: auto;
   }
   .footer-logo-contact{
     display: flex;
