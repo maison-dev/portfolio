@@ -6,7 +6,6 @@ html, body {
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh; /* pour iOS 16+ */
-  margin: 0;
   padding: 0;
   box-sizing: border-box;
   background: #fff; /* ou ta couleur de fond */
@@ -28,6 +27,7 @@ a{
     border-right: 1px solid #ddd;
     padding: 20px;
     box-shadow: inset #808080b0 1px 1px 5px;
+    z-index: 1000; /* s'assure que la sidebar reste visible au-dessus des autres éléments fixes */
   }
   .sidebar .logo {
     font-size: 25px;
@@ -365,4 +365,114 @@ a{
     color: #333;
     font-size: 1.1em;
   }
+}
+
+/* boutons et utilitaires */
+.dark-toggle{
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  width: 30px;
+  height: 30px;
+}
+.dark-toggle .visu{
+  font-size: 1rem;
+  line-height: 1;
+}
+.dark-toggle:focus{
+  outline: 2px solid #a46bff55;
+  outline-offset: 2px;
+}
+
+/* Dark mode styles (améliorations pour formulaires, pop-up et hover) */
+body.dark-mode {
+  background: #0b0b0d;
+  color: #ffffff;
+}
+body.dark-mode a { color: #fff8; }
+
+/* Sidebar */
+body.dark-mode .sidebar {
+  background: #0f0f12;
+  border-color: #1f1f23;
+  box-shadow: none;
+}
+body.dark-mode .sidebar .logo a,
+body.dark-mode .sidebar ul li a {
+  color: #ffffff;
+}
+/* Hovers des liens en mode sombre */
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar .logo a:hover,
+body.dark-mode a:hover {
+  color: #ea66e1ac !important;
+  opacity: 1;
+}
+
+/* Hero garde son texte en blanc */
+body.dark-mode .hero { color: #fff; }
+
+/* Formulaires en dark mode */
+body.dark-mode .contact-form {
+  background: #121217; /* plus sombre que le fond pour contraste */
+  box-shadow: 0 1px 12px rgba(0,0,0,0.6);
+}
+body.dark-mode .contact-form input,
+body.dark-mode .contact-form textarea {
+  background: #0f1113;
+  color: #ffffff;
+  border: 1px solid #2b2b30;
+}
+body.dark-mode .contact-form input:focus,
+body.dark-mode .contact-form textarea:focus {
+  border: 1.5px solid #8f6bff; /* accent visible en focus */
+  background: #0f1113;
+  color: #fff;
+}
+body.dark-mode .contact-form input::placeholder,
+body.dark-mode .contact-form textarea::placeholder {
+  color: #bfbfbf;
+  opacity: 0.9;
+}
+
+/* Bouton d'envoi */
+body.dark-mode .contact-form button {
+  background: linear-gradient(44deg, #6f5bff 0%, #ff9db3 100%); /* visible sur sombre */
+  color: #fff;
+  border: none;
+}
+body.dark-mode .contact-form button:hover {
+  background: linear-gradient(44deg, #ff9db3 0%, #6f5bff 100%);
+}
+
+/* Pop-up confirmation en dark mode */
+body.dark-mode .confirmation-popup {
+  background: rgba(0,0,0,0.6);
+}
+body.dark-mode .confirmation-content {
+  background: #0f1113;
+  color: #ffffff;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.7);
+}
+body.dark-mode .confirmation-content h4 {
+  color: #cfa8ff;
+}
+body.dark-mode .confirmation-content button {
+  background: #ffffff;
+  color: #111;
+}
+body.dark-mode .confirmation-content button:hover {
+  background: #e6e6e6;
+}
+
+/* Assurer transitions agréables */
+body.dark-mode * {
+  transition: color 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
 }

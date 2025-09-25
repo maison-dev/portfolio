@@ -10,72 +10,55 @@
   <title>Maison.Dev 2025 - Services et contact</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body >
-  <div id="mobile-unavailable">
-  <div class="mobile-unavailable-content">
-    <h2>Site pas encore disponible sur mobile</h2>
-    <p>Merci de visiter ce site depuis un ordinateur.</p>
-  </div>
-</div>
-  <div id="nav"></div>
-  <main class="content-services">
-      <section class="section-services">
-        <div class="service1">
-          <p>Pack Starter 1 à 2 pages, design simple et moderne. 150 €</p>
-        </div>
-        <div class="service2">
-          <p>Pack Pro 3 pages et plus, design personnalisé et responsive. A partir de 300 €</p>
-        </div>
-      </section>
-        <!-- ... formulaire de contact  -->
-<section class="contact-section">
-  <div class="contact-info">
-    <h3 class="contact-title">Me Contacter</h3>
-    <p class="contact-desc">Parlez-moi de votre projet en remplissant le formulaire :</p>
-  </div>
-  <form id="contact-form" action="https://formspree.io/f/mkgqnogd" method="POST" class="contact-form">
-    <input type="text" name="nom" placeholder="Nom" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <textarea name="message" placeholder="Votre message" required></textarea>
-    <button type="submit">Envoyer</button>
-  </form>
-  <!-- Pop-up de confirmation -->
-  <div id="confirmation-popup" class="confirmation-popup hidden">
-    <div class="confirmation-content">
-      <h4>Merci pour votre message !</h4>
-      <p>Je vous répondrai dès que possible.</p>
-      <button onclick="document.getElementById('confirmation-popup').classList.add('hidden')">Fermer</button>
+<body>
+  <div id="mobile-unavailable" role="status" aria-live="polite">
+    <div class="mobile-unavailable-content">
+      <h2>Site pas encore disponible sur mobile</h2>
+      <p>Merci de visiter ce site depuis un ordinateur.</p>
     </div>
   </div>
-</section>
-<!-- ...existing code... -->
+
+  <div id="nav">
+    <noscript>
+      <p>Navigation non disponible : JavaScript requis pour charger le menu.</p>
+    </noscript>
+  </div>
+
+  <main class="content-services">
+    <section class="section-services">
+      <div class="service1">
+        <p>Pack Starter 1 à 2 pages, design simple et moderne. 150 €</p>
+      </div>
+      <div class="service2">
+        <p>Pack Pro 3 pages et plus, design personnalisé et responsive. A partir de 300 €</p>
+      </div>
+    </section>
+
+    <!-- ... formulaire de contact  -->
+    <section class="contact-section">
+      <div class="contact-info">
+        <h3 class="contact-title">Me Contacter</h3>
+        <p class="contact-desc">Parlez-moi de votre projet en remplissant le formulaire :</p>
+      </div>
+
+      <form id="contact-form" action="https://formspree.io/f/mkgqnogd" method="POST" class="contact-form">
+        <input type="text" name="nom" placeholder="Nom" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Votre message" required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+
+      <!-- Pop-up de confirmation -->
+      <div id="confirmation-popup" class="confirmation-popup hidden">
+        <div class="confirmation-content">
+          <h4>Merci pour votre message !</h4>
+          <p>Je vous répondrai dès que possible.</p>
+          <button onclick="document.getElementById('confirmation-popup').classList.add('hidden')">Fermer</button>
+        </div>
+      </div>
+    </section>
   </main>
-  <script>
-    fetch("nav.html").then(r => r.text()).then(d => {
-      document.getElementById("nav").innerHTML = d;
-    });
-    // Gestion du formulaire de contact
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  const action = form.action;
-  const response = await fetch(action, {
-    method: 'POST',
-    body: data,
-    headers: {
-      'Accept': 'application/json'
-    }
-  });
-  if (response.ok) {
-    form.reset();
-    document.getElementById('confirmation-popup').classList.remove('hidden');
-  } else {
-    alert("Une erreur est survenue. Merci de réessayer.");
-  }
-});
 
-
-  </script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

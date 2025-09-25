@@ -10,30 +10,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="mobile-unavailable">
-  <div class="mobile-unavailable-content">
-    <h2>Site pas encore disponible sur mobile</h2>
-    <p>Merci de visiter ce site depuis un ordinateur.</p>
+  <div id="mobile-unavailable" role="status" aria-live="polite">
+    <div class="mobile-unavailable-content">
+      <h2>Site pas encore disponible sur mobile</h2>
+      <p>Merci de visiter ce site depuis un ordinateur.</p>
+    </div>
   </div>
-</div>
-  <div id="nav"></div>
+
+  <div id="nav">
+    <noscript>
+      <p>Navigation non disponible : JavaScript requis pour charger le menu.</p>
+    </noscript>
+  </div>
+
   <main class="content-projets">
     <!-- <h1>Mes projets</h1> -->
-
-      <div class="card-container">
-        <p class="title-card">La table de Marie</p>
-        <div class="card">
-          <a href="projets/restaurant/latabledemarie.html" target="_blank" rel="noopener noreferrer">
-            <img src="images/latabledemarie.jpg">
-          </a>
-        </div>
+    <div class="card-container">
+      <p class="title-card">La table de Marie</p>
+      <div class="card">
+        <a href="projets/restaurant/latabledemarie.html" target="_blank" rel="noopener noreferrer">
+          <img src="images/latabledemarie.jpg" alt="La table de Marie">
+        </a>
       </div>
-
+    </div>
   </main>
-  <script>
-    fetch("nav.html").then(r => r.text()).then(d => {
-      document.getElementById("nav").innerHTML = d;
-    });
-  </script>
+
+  <script src="js/main.js" defer></script>
 </body>
 </html>
