@@ -1,32 +1,53 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  // Injecte la nav
+  const navEl = document.getElementById('nav');
+
+  // Injecte la nav (si possible)
   try {
     const res = await fetch('nav.html');
     if (!res.ok) throw new Error('Impossible de charger nav.html');
     const html = await res.text();
-    const navEl = document.getElementById('nav');
-    if (navEl) {
-      navEl.innerHTML = html;
-
-      // attacher le toggle dès que la nav est insérée
-      const toggle = document.getElementById('dark-toggle');
-      if (toggle && !toggle.dataset.listener) {
-        toggle.addEventListener('click', () => {
-          if (document.body.classList.contains('dark-mode')) disableDarkMode();
-          else enableDarkMode();
-        });
-        toggle.dataset.listener = '1';
-      }
-
-      // si dark-mode actif avant injection, rescanner la nav pour ajuster les couleurs
-      if (document.body.classList.contains('dark-mode')) {
-        // petit délai pour que le navigateur calcule les styles du DOM injecté
-        setTimeout(() => scanAndReplaceBlackText(true), 10);
-      }
-    }
+    if (navEl) navEl.innerHTML = html;
   } catch (e) {
     console.warn('Chargement du menu échoué :', e);
   }
+
+  // attache le listener au toggle s'il existe
+  const attachToggle = () => {
+    const toggle = document.getElementById('dark-toggle') || document.getElementById('dark-toggle-fallback');
+    if (toggle && !toggle.dataset.listener) {
+      toggle.addEventListener('click', () => {
+        if (document.body.classList.contains('dark-mode')) disableDarkMode();
+        else enableDarkMode();
+      });
+      toggle.dataset.listener = '1';
+    }
+  };
+
+  // observer pour détecter insertion de contenu dans #nav (si injection asynchrone)
+  if (navEl) {
+    const mo = new MutationObserver(() => {
+      attachToggle();
+      // si dark-mode est actif et nav vient d'être injecté, rescanner la nav
+      if (document.body.classList.contains('dark-mode')) {
+        setTimeout(() => scanAndReplaceBlackText(true), 10);
+      }
+    });
+    mo.observe(navEl, { childList: true, subtree: true });
+  }
+
+  // fallback : si pas de toggle trouvé, créer un bouton discret (dans .footer-logo-contact si présent)
+  const ensureFallbackToggle = () => {
+    if (document.getElementById('dark-toggle') || document.getElementById('dark-toggle-fallback')) return;
+    const container = document.querySelector('.footer-logo-contact') || document.getElementById('nav') || document.body;
+    const btn = document.createElement('button');
+    btn.id = 'dark-toggle-fallback';
+    btn.className = 'dark-toggle';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.title = 'Activer le mode sombre';
+    btn.innerHTML = '<span class="visu">🌓</span>';
+    container.appendChild(btn);
+    attachToggle();
+  };
 
   // Fonctions dark mode
   function scanAndReplaceBlackText(enable) {
@@ -41,36 +62,81 @@ document.addEventListener('DOMContentLoaded', async () => {
           el.style.color = '#ffffff';
         }
       } else {
-        // Au lieu de remettre un style inline (qui masque le CSS), on supprime la couleur inline
+        // Si on avait sauvegardé une couleur d'origine, on supprime l'inline color pour laisser le CSS reprendre la main
         if (el.dataset.origColor) {
           el.style.removeProperty('color');
           delete el.dataset.origColor;
+        } else {
+          // Supprimer aussi les couleurs inline blanches résiduelles
+          if (el.style && el.style.color) {
+            const inlineColor = el.style.color.trim().toLowerCase();
+            if (inlineColor === '#fff' || inlineColor === '#ffffff' || inlineColor === 'rgb(255, 255, 255)' || inlineColor === 'white') {
+              el.style.removeProperty('color');
+            }
+          }
         }
       }
     }
   }
 
-  function enableDarkMode() {
-    document.body.classList.add('dark-mode');
-    scanAndReplaceBlackText(true);
-    const btn = document.getElementById('dark-toggle');
-    if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.title = 'Désactiver le mode sombre'; }
-    localStorage.setItem('theme', 'dark');
-  }
-  function disableDarkMode() {
-    document.body.classList.remove('dark-mode');
-    scanAndReplaceBlackText(false);
-    const btn = document.getElementById('dark-toggle');
-    if (btn) { btn.setAttribute('aria-pressed', 'false'); btn.title = 'Activer le mode sombre'; }
-    localStorage.setItem('theme', 'light');
+  // helper : met à jour la meta[name="theme-color"]
+  function setMetaThemeColor(color) {
+    try {
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        document.head.appendChild(meta);
+      }
+      meta.content = color;
+    } catch (e) {
+      // silent
+    }
   }
 
-  // Initialisation depuis localStorage ou préférence système
-  const saved = localStorage.getItem('theme');
-  if (saved === 'dark') enableDarkMode();
-  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    enableDarkMode();
+  function enableDarkMode() {
+    document.documentElement.classList.add('dark-mode');
+    document.body.classList.add('dark-mode');
+    scanAndReplaceBlackText(true);
+    const btn = document.getElementById('dark-toggle') || document.getElementById('dark-toggle-fallback');
+    if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.title = 'Désactiver le mode sombre'; }
+    localStorage.setItem('theme', 'dark');
+    setMetaThemeColor('#0b0b0d');
   }
+  function disableDarkMode() {
+    document.documentElement.classList.remove('dark-mode');
+    document.body.classList.remove('dark-mode');
+    scanAndReplaceBlackText(false);
+    const btn = document.getElementById('dark-toggle') || document.getElementById('dark-toggle-fallback');
+    if (btn) { btn.setAttribute('aria-pressed', 'false'); btn.title = 'Activer le mode sombre'; }
+    localStorage.setItem('theme', 'light');
+    setMetaThemeColor('#ffffff');
+  }
+
+  // initialisation : attacher le toggle et créer fallback si nécessaire
+  attachToggle();
+  setTimeout(() => {
+    attachToggle();
+    ensureFallbackToggle();
+  }, 300);
+
+  // Initialisation du thème : respecter la préférence utilisateur si elle existe.
+  // - si saved === 'dark' => activer le dark mode (persistance entre pages)
+  // - sinon démarrer en clair (sans écraser une préférence précédente)
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    setMetaThemeColor('#0b0b0d');
+    enableDarkMode();
+  } else {
+    setMetaThemeColor('#ffffff');
+    disableDarkMode();
+  }
+
+  // enlever la classe no-transitions / preload après le premier rendu (évite flash)
+  requestAnimationFrame(() => {
+    document.documentElement.classList.remove('no-transitions', 'preload');
+    document.body.classList.remove('no-transitions', 'preload');
+  });
 
   // Gestion du formulaire de contact (si présent)
   const form = document.getElementById('contact-form');
@@ -98,3 +164,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 });
+

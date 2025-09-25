@@ -7,6 +7,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <title>Maison.Dev 2025 - Accueil</title>
+
+  <!-- meta theme-color initial (sera mis à jour par le script ci‑dessous) -->
+  <meta name="theme-color" content="#ffffff">
+
+  <script>
+    // filepath: /Users/kali/Documents/GitHub/portfolio/index.html (head inline)
+    (function(){
+      try {
+        // désactiver temporairement les transitions et masquer le body pour éviter le flash
+        document.documentElement.classList.add('no-transitions', 'preload');
+
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.name = 'theme-color';
+          document.head.appendChild(meta);
+        }
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          meta.content = '#0b0b0d';
+          document.documentElement.classList.add('dark-mode');
+        } else {
+          meta.content = '#ffffff';
+        }
+      } catch (e) {
+        /* silent */
+      }
+    })();
+  </script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
