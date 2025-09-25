@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <title>Maison.Dev 2025 - Accueil</title>
+  <title>Maison.Dev 2025 - Mes projets</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,19 +17,20 @@
   </div>
 </div>
   <div id="nav"></div>
+  <main class="content-projets">
+    <!-- <h1>Mes projets</h1> -->
 
-  <main class="content">
-    <section class="hero">
-      <h1>Maison.Dev 2025</h1>
-      <p>Concepteur de sites interactifs et responsives 👨🏻‍💻</p>
-    </section>
+      <div class="card-container">
+        <p class="title-card">La table de Marie</p>
+        <div class="card">
+          <a href="projets/restaurant/latabledemarie.html" target="_blank" rel="noopener noreferrer">
+            <img src="images/latabledemarie.jpg">
+          </a>
+        </div>
+      </div>
 
-    <section class="presentation">
-      <h2>Présentation</h2>
-      <p>Développeur front-end junior, autodidacte et passionné, je mets mes compétences en HTML, CSS, Bootstrap, Tailwind et Figma au service de vos projets en freelance. Mon objectif : livrer des sites responsives, modernes et agréables à utiliser. Je me forme également au back-end afin de gagner en polyvalence et proposer des solutions plus complètes.</p>
-    </section>
   </main>
-  <div id="footer"></div>
+   <div id="footer"></div>
   <script>
     fetch("nav.html").then(r => r.text()).then(d => {
       document.getElementById("nav").innerHTML = d;
@@ -38,7 +39,7 @@
     fetch("footer.html").then(r => r.text()).then(d => {
       document.getElementById("footer").innerHTML = d;
     });
-
+    
  
   </script>
 </body>
