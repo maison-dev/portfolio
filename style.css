@@ -90,20 +90,19 @@ a{
   }
 
   .presentation {
-  padding: 10px 20px;
-  }
-  .presentation h2{
-    margin-top: 0px;
-    margin-bottom: 10px;
+  padding: 20px;
   }
 
+
   .presentation p {
-    margin: 0;
+    width: fit-content;
+    margin: 0 auto;
+    text-align: right;
   }
 
 /* ----- Hero -----*/
     .hero {
-      height: 65vh; /* prend % de la hauteur de l’écran */
+      height: 70vh; /* prend % de la hauteur de l’écran */
       width: 100%; /* toute la largeur (moins la sidebar grâce à .content) */
       background: #EEAECA;
       background: linear-gradient(44deg, rgba(238, 174, 202, 0.767) 0%, rgba(164, 107, 255, 0.801) 49%, rgba(148, 188, 233, 0.789) 100%);      margin-top: 0px;
