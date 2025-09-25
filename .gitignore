@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# VS Code (perso uniquement)
+.vscode/
+
+# Fichiers temporaires
+*.tmp
