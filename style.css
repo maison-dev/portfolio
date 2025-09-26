@@ -91,12 +91,15 @@ a{
 
   .presentation {
   padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
   }
 
 
   .presentation p {
-    width: fit-content;
-    margin: 0 auto;
+    width: 70%;
     text-align: right;
   }
 
