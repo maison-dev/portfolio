@@ -101,6 +101,7 @@ a{
   .presentation p {
     width: 70%;
     text-align: right;
+    margin: 0;
   }
 
 /* ----- Hero -----*/
