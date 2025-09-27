@@ -183,54 +183,81 @@ a{
   transition: 0.5s;
 }
 
-/* ---- Hero Card (FindFlix) ---- */
-.hero-card {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: #33333382 1px 1px 10px;
-    background: #0a2422; /* fond fixe, indépendant du thème */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: transform 0.5s, box-shadow 0.5s;
+/* ---- Hero Card (FindFlix) - spécificité renforcée ---- */
+.card-container .hero-card,
+.card1 .hero-card,
+.card2 .hero-card {
+  display: block !important;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: #33333382 1px 1px 10px;
+  background: #0a2422 !important; /* fond fixe, indépendant du thème */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.5s, box-shadow 0.5s;
+  text-decoration: none;
 }
 
-.hero-card:hover {
-  transform: scale(1.01);
-  box-shadow: #6c6c6c 1px 1px 14px;
+.card-container .hero-card:hover,
+.card1 .hero-card:hover,
+.card2 .hero-card:hover {
+  transform: scale(1.01) !important;
+  box-shadow: #6c6c6c 1px 1px 14px !important;
   transition: 0.5s;
 }
 
-.hero-card__content {
+.card-container .hero-card__content,
+.card1 .hero-card__content,
+.card2 .hero-card__content {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: rgba(255, 255, 255, 0.511);
+  color: rgba(255, 255, 255, 0.9) !important;
+  z-index: 2;
 }
 
-.hero-card__title {
-  font-size: 200px;
+.card-container .hero-card__title,
+.card1 .hero-card__title,
+.card2 .hero-card__title {
+  font-size: 200px !important;
   margin: 0;
-  font-family: 'Manrope', Segoe UI, Roboto, system-ui, -apple-system, sans-serif;
+  font-family: 'Manrope', 'Bebas Neue', Segoe UI, Roboto, system-ui, -apple-system, sans-serif !important;
   font-weight: 700;
+  color: rgba(128, 128, 128, 0.431) !important;
 }
 
-/* Style spécifique pour le titre de la card1 */
-.card1 .hero-card__title {
-  font-size: 120px;
-  color: black;
+/* Style spécifique pour le titre de la card1 - spécificité renforcée */
+.card-container .card1 .hero-card__title,
+.card1 .hero-card .hero-card__title {
+  font-size: 120px !important;
+  color: black !important;
 }
 
-/* Assure la même couleur en dark-mode */
-.dark-mode .hero-card {
-  background: #0a2422;
+/* Assure la même couleur en dark-mode - spécificité renforcée */
+.dark-mode .card-container .hero-card,
+.dark-mode .card1 .hero-card,
+.dark-mode .card2 .hero-card {
+  background: #0a2422 !important;
 }
 
+.dark-mode .card-container .hero-card__title,
+.dark-mode .card1 .hero-card__title,
+.dark-mode .card2 .hero-card__title {
+  color: rgba(170, 170, 170, 0.847) !important;
+}
+
+.dark-mode .card-container .card1 .hero-card__title,
+.dark-mode .card1 .hero-card .hero-card__title {
+  color: black !important;
+}
 
 /* ----- services et contact.html ----- */
   .content-services{
@@ -252,19 +279,28 @@ a{
   .service1 p{
     text-align: right;
     background: -webkit-linear-gradient(75deg, #f703ffcb, #d2e907c2);
-    background-clip: text;
+    background: -moz-linear-gradient(75deg, #f703ffcb, #d2e907c2);
+    background: linear-gradient(75deg, #f703ffcb, #d2e907c2);
     -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-
+    -moz-text-fill-color: transparent;
+    /* Fallback pour navigateurs ne supportant pas background-clip: text */
+    color: #f703ff;
   }
 
   .service2 p{
-    background: -webkit-linear-gradient(30deg,#448fffcb, #20f80dc2);
-    background-clip: text;
+    background: -webkit-linear-gradient(30deg, #448fffcb, #20f80dc2);
+    background: -moz-linear-gradient(30deg, #448fffcb, #20f80dc2);
+    background: linear-gradient(30deg, #448fffcb, #20f80dc2);
     -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-
-
+    -moz-text-fill-color: transparent;
+    /* Fallback pour navigateurs ne supportant pas background-clip: text */
+    color: #448fff;
   }
 
   .service1{
@@ -276,8 +312,14 @@ a{
 
 /* ----- Contact Section ----- */
 .contact-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   gap: 40px;
   padding: 30px 30px;
@@ -305,9 +347,16 @@ a{
 }
 
 .contact-form {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   gap: 18px;
   background: #f8f8fa;
@@ -554,4 +603,80 @@ html.preload body {
 /* Assurer transitions agréables */
 .dark-mode * {
   transition: color 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+}
+
+/* Style spécifique pour la card1 (La table de Marie) avec image de fond */
+.card-container .card1 .hero-card,
+.card1 .hero-card {
+  background-image: url('images/latabledemarie.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Overlay pour améliorer la lisibilité du texte sur l'image */
+.card-container .card1 .hero-card::before,
+.card1 .hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+/* S'assurer que le contenu reste au-dessus de l'overlay */
+.card-container .card1 .hero-card__content,
+.card1 .hero-card__content {
+  z-index: 3 !important;
+}
+
+/* Améliorer la compatibilité pour flexbox */
+.card-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 50px;
+  padding: 40px 0px;
+}
+
+.contact-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px 30px;
+  margin: 0;
+  position: relative;
+}
+
+.contact-form {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 18px;
+  background: #f8f8fa;
+  border-radius: 10px;
+  padding: 28px 24px;
+  box-shadow: 0 1px 8px #e0e0e0;
 }
