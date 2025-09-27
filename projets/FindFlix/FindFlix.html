@@ -27,7 +27,13 @@
       <p id="stats" aria-live="polite"></p>
     </div>
     <div id="loader" class="loader" aria-hidden="true" style="display:none"></div>
-    <div id="episodes" class="episodes"></div>
+    <div
+      id="episodes"
+      class="episodes"
+      style="overflow-y:auto; max-height:60vh; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;"
+      tabindex="0"
+      aria-label="Liste des épisodes défilable">
+    </div>
     <button class="random-btn" id="randomBtn">Choisir un épisode</button>
   </div>
 

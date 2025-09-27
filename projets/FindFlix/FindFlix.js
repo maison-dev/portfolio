@@ -15,6 +15,8 @@ const episodesContainer = document.getElementById('episodes');
 // cache size limit
 const CACHE_LIMIT = 50;
 const TOP20_CACHE_KEY = 'findflix_top20_v1';
+// Speed multiplier for wheel-to-horizontal scroll on episodes container
+const WHEEL_SCROLL_FACTOR = 5; // increase to scroll faster, e.g., 2 or 3
 
 // hydrate persistent cache from localStorage
 try{
@@ -256,6 +258,21 @@ window.addEventListener('resize', ()=>{ resetCarouselHeight(); });
 resetCarouselHeight();
 // show Top 20 by default on startup
 loadTop20Series();
+
+// --- Horizontal scroll with mouse wheel on episodes ---
+// When the mouse is over the #episodes container, turn vertical wheel into horizontal scroll
+// Requirement: scroll down -> scroll left, scroll up -> scroll right
+episodesContainer.addEventListener('wheel', (e) => {
+  // Ignore zoom gestures (ctrl+wheel)
+  if (e.ctrlKey) return;
+  // Only hijack when the gesture is primarily vertical, to preserve natural trackpad horizontal scroll
+  const verticalDominant = Math.abs(e.deltaY) > Math.abs(e.deltaX);
+  if (!verticalDominant) return;
+  e.preventDefault();
+  // deltaY > 0 (wheel down) => move right; deltaY < 0 (wheel up) => move left
+  const leftDelta = e.deltaY * WHEEL_SCROLL_FACTOR;
+  episodesContainer.scrollBy({ left: leftDelta, behavior: 'smooth' });
+}, { passive: false });
 
 // --- Top 20 catalogue support ---
 async function loadTop20Series(){
