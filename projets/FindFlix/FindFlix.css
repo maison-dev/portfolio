@@ -24,8 +24,7 @@ body {
 .loader{ width:36px; height:36px; border-radius:50%; border:4px solid rgba(255,255,255,0.15); border-top-color:rgba(255,255,255,0.5); animation:spin 1s linear infinite; margin-right:12px }
 @keyframes spin{ to{transform:rotate(360deg)} }
 
-/* positionner le bouton en bas du carousel */
-.carousel{ position:relative }
+/* positionner le bouton en bas du carousel (géré par le bloc .carousel plus bas) */
 
 /* ensure h1 uses the same font as body (Manrope) */
 h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
@@ -63,11 +62,7 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
 }
 .hero-sub{ color:#edebe5; margin-top:0; margin-bottom:16px; z-index:2 }
 
-.search-bar{ display:flex; gap:10px; justify-content:center; align-items:center }
-.search-bar input{ flex:1; min-width:220px; padding:14px 16px; border-radius:0; background:#edebe5; border:1px solid rgba(0,0,0,0.12); color:var(--card) }
-.search-bar select{ padding:10px 12px; border-radius:0; background:#edebe5; border:1px solid rgba(0,0,0,0.12); color:var(--card) }
-
-.small-btn{ padding:8px 10px; border-radius:8px; background:transparent; border:1px solid rgba(0,0,0,0.06); color:#243d34 }
+/* (redundant search-bar rules supprimés) */
 
 
 .search-bar {
@@ -90,26 +85,27 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
   color: var(--card);
 }
 
-.search-bar button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: var(--accent);
-  color: white;
-  transition: background 200ms ease, transform 150ms ease;
+/* Autocomplete */
+.search-input-wrapper{ position:relative; display:inline-block; min-width:260px }
+.suggestions{
+  position:fixed; /* positioned by JS to align under the input; avoids hero overflow clipping */
+  background:#fff; color:#243d34; border:1px solid rgba(0,0,0,0.12); border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  max-height:260px; overflow:auto; z-index: 9999;
 }
+.suggestion-item{ padding:5px 10px; cursor:pointer; display:flex; align-items:center; gap:10px }
+.suggestion-item:hover, .suggestion-item.active{ background:#f5f7f9 }
+.suggestion-title{ font-weight:700 }
+.suggestion-sub{ font-size:12px; color:#666 }
+.suggestion-thumb{ width:40px; object-fit:cover; border-radius:4px; flex:0 0 auto }
 
-.search-bar button:active{transform:scale(.98)}
-.search-bar button:hover{background:var(--accent-hover)}
+/* (styles bouton dans la barre de recherche supprimés car non utilisés) */
 
 .meta{width:90%;max-width:1200px;padding:0 20px}
-#info{margin:0 0 8px 0}
-#info{ color: rgba(0,0,0,0.85); }
+#info{margin:0 0 8px 0; color: rgba(0,0,0,0.85); }
 #stats{font-size:.9rem;color:rgba(0,0,0,0.6);margin:0 0 12px 0}
 
-.carousel-wrapper{width:90%;max-width:1200px}
+/* .carousel-wrapper non utilisé sur la page, supprimé */
 .carousel {
   display: flex;
   flex-direction: column; /* stack loader, episodes row, button */
@@ -140,21 +136,28 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
   width: 250px;
   height: 250px;
   background: var(--card);
-  overflow: hidden;
-  text-align: center;
-  transition: transform 260ms cubic-bezier(.2,.8,.2,1), box-shadow 260ms ease, background 260ms ease;
-  transform-origin: center center;
-  border: 1px solid rgba(0,0,0,0.12);
-  align-self: center;
-  /* subtle elevated card */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  /* layout */
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
+  align-self: center;
+  /* visuals */
+  box-sizing:border-box;
+  overflow: hidden;
+  text-align: center;
+  color: var(--bg);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transform-origin: center center;
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1), box-shadow 260ms ease, background 260ms ease;
+  /* modern tiny card look */
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  opacity:0;
+  transform:translateY(10px);
+  animation:cardIn 380ms ease forwards;
 }
 
-.episode { color: var(--bg); }
-.episode img { width:250px; height:140px; object-fit:cover; display:block }
+.episode img{ width:250px; height:140px; object-fit:cover; display:block }
 
 .episode p{ margin:6px 8px; font-size:0.95rem; font-weight: bold; }
 
@@ -166,9 +169,7 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
 .ep-season{ margin:0; font-size:14px; color: #edebe5 }
 .ep-title{ margin:6px 0 0 0; font-size:28px; text-align:center; line-height:1.05; color: #edebe5; word-break:break-word }
 
-/* prevent image/card overflow */
-.episode{ box-sizing:border-box; overflow:hidden }
-.episode img{ display:block; max-width:100%; height:140px; object-fit:cover }
+/* prevent image/card overflow (intégré dans .episode et .episode img) */
 
 /* empty / no results message */
 .empty-message{
@@ -204,8 +205,6 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
 
 .random-btn{ margin:8px auto 0 auto; padding:14px 30px; font-weight:700; background:#edebe5; color:#243d34; box-shadow:none; border:1px solid rgba(0,0,0,0.12); width:260px; align-self:center }
 
-/* modern tiny card look */
-.episode{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); opacity:0; transform:translateY(10px); animation:cardIn 380ms ease forwards }
 @keyframes cardIn{ to{ opacity:1; transform:none } }
 
 /* small screens */
@@ -241,3 +240,16 @@ select:disabled{
 
 /* apply 8px border-radius to main visual elements */
 input, select, .episode, .random-btn, .carousel { border-radius: 8px }
+
+/* Error message inside carousel */
+.error-message{ color:#243d34; background:transparent; text-align:center; font-weight:700; padding:12px 16px; border-radius:8px; align-self:center }
+
+/* Center the message inside the episodes area when it is the only content */
+#episodes:has(.error-message){ justify-content:center; }
+
+/* When carousel only has the error message, center it perfectly */
+.carousel:has(.error-message){
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}

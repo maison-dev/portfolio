@@ -2,6 +2,7 @@
 const carousel = document.getElementById('carousel');
 const randomBtn = document.getElementById('randomBtn');
 const searchInput = document.getElementById('searchInput');
+const suggestionsEl = document.getElementById('suggestions');
 const seasonMin = document.getElementById('seasonMin');
 const seasonMax = document.getElementById('seasonMax');
 const info = document.getElementById('info');
@@ -17,6 +18,19 @@ const CACHE_LIMIT = 50;
 const TOP20_CACHE_KEY = 'findflix_top20_v1';
 // Speed multiplier for wheel-to-horizontal scroll on episodes container
 const WHEEL_SCROLL_FACTOR = 5; // increase to scroll faster, e.g., 2 or 3
+// Tolerant search tuning
+const TOLERANT_SEARCH = {
+  weightSim: 0.75,   // weight for our normalized similarity
+  weightApi: 0.25,   // weight for TVMaze API score
+  minSim: 0.45,      // minimal similarity to consider a match
+  minCombined: 0.5   // minimal combined score to accept
+};
+// Suggestions relevance tuning
+const SUGGEST = {
+  minScore: 0.2, // minimal composite score to keep an item in suggestions
+  maxItems: 4,   // maximum suggestions to display
+  minItems: 4    // try to show at least this many when possible
+};
 
 // hydrate persistent cache from localStorage
 try{
@@ -41,6 +55,191 @@ function setLoading(msg = '⏳ Chargement...'){
   episodesContainer.innerHTML = `<p>${msg}</p>`;
 }
 
+function showErrorMessage(message){
+  // Display a clean error message in the episodes area without destroying the carousel structure
+  loader.style.display = 'none';
+  episodesContainer.innerHTML = `<div class="error-message" role="status" aria-live="polite">${message}</div>`;
+  stats.style.display = 'none';
+  setSelectsEnabled(false);
+}
+
+// --- Helpers for tolerant search ---
+function normalizeText(str){
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // remove diacritics
+    .replace(/[^a-z0-9]+/g, ' ')       // keep alphanumerics, collapse others to space
+    .replace(/^the\s+/,'')            // drop leading 'the '
+    .trim();
+}
+
+function cacheKeyFromQuery(q){
+  return normalizeText(q);
+}
+
+function levenshtein(a,b){
+  const an = a.length, bn = b.length;
+  if(an === 0) return bn;
+  if(bn === 0) return an;
+  const v0 = new Array(bn + 1);
+  const v1 = new Array(bn + 1);
+  for(let i=0;i<=bn;i++) v0[i] = i;
+  for(let i=0;i<an;i++){
+    v1[0] = i + 1;
+    for(let j=0;j<bn;j++){
+      const cost = a[i] === b[j] ? 0 : 1;
+      v1[j+1] = Math.min(v1[j] + 1, v0[j+1] + 1, v0[j] + cost);
+    }
+    for(let j=0;j<=bn;j++) v0[j] = v1[j];
+  }
+  return v0[bn];
+}
+
+function similarity(a,b){
+  const A = normalizeText(a), B = normalizeText(b);
+  if(!A && !B) return 1;
+  if(!A || !B) return 0;
+  const dist = levenshtein(A,B);
+  const maxLen = Math.max(A.length, B.length) || 1;
+  return 1 - (dist / maxLen); // 1 exact, ~0 very different
+}
+
+// subsequence: does A appear in order inside B (not necessarily contiguous)? returns ratio of matched length
+function subseqScore(a,b){
+  const A = normalizeText(a), B = normalizeText(b);
+  if(!A) return 0;
+  let i=0, j=0; let matched=0;
+  while(i<A.length && j<B.length){
+    if(A[i]===B[j]){ i++; j++; matched++; }
+    else { j++; }
+  }
+  return matched / Math.max(A.length,1);
+}
+
+function prefixScore(a,b){
+  const A = normalizeText(a), B = normalizeText(b);
+  if(!A) return 0;
+  return B.startsWith(A) ? Math.min(1, A.length / Math.max(B.length,1)) : 0;
+}
+
+function computeShowScore(query, show){
+  const nq = normalizeText(query);
+  const name = show?.name || '';
+  const sim = similarity(nq, name);
+  const pref = prefixScore(nq, name);
+  const sub = subseqScore(nq, name);
+  const apiScore = typeof show._apiScore === 'number' ? show._apiScore : 0;
+  // weight: prefer prefix > subseq > similarity, keep some API score
+  const score = 0.5*pref + 0.2*sub + 0.25*sim + 0.05*apiScore;
+  return { score, parts: { pref, sub, sim, apiScore } };
+}
+
+function renderSuggestions(list, query){
+  if(!list || list.length===0){ hideSuggestions(); return; }
+  const items = list.slice(0, SUGGEST.maxItems).map((s, idx)=>{
+    const img = s.image ? (s.image.medium || s.image.original) : null;
+    return `<div class="suggestion-item" role="option" data-id="${s.id}" aria-selected="${idx===0?'true':'false'}">
+      ${img? `<img class="suggestion-thumb" src="${img}" alt="">` : ''}
+      <div>
+        <div class="suggestion-title">${escapeHtml(s.name)}</div>
+        ${s.premiered? `<div class="suggestion-sub">${s.premiered.slice(0,4)}${s.status? ' · '+escapeHtml(s.status): ''}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  suggestionsEl.innerHTML = items;
+  suggestionsEl.hidden = false;
+  searchInput.setAttribute('aria-expanded','true');
+  positionSuggestionsDropdown();
+}
+
+function hideSuggestions(){
+  suggestionsEl.hidden = true;
+  suggestionsEl.innerHTML = '';
+  searchInput.setAttribute('aria-expanded','false');
+}
+
+function positionSuggestionsDropdown(){
+  if(suggestionsEl.hidden) return;
+  const rect = searchInput.getBoundingClientRect();
+  const padding = 4;
+  const width = Math.max(rect.width, 260);
+  suggestionsEl.style.left = `${Math.round(rect.left)}px`;
+  suggestionsEl.style.top = `${Math.round(rect.bottom + padding)}px`;
+  suggestionsEl.style.width = `${Math.round(width)}px`;
+}
+
+async function fetchSuggestions(q){
+  if(!q || q.trim().length < 1){ hideSuggestions(); return; }
+  try{
+    const res = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(q)}`);
+    if(!res.ok){ hideSuggestions(); return; }
+    const data = await res.json(); // [{score, show}]
+    const getPopularity = (show)=> {
+      const weight = typeof show.weight === 'number' ? show.weight : 0;
+      const rating = (show.rating && typeof show.rating.average === 'number') ? show.rating.average : 0;
+      const api = typeof show._apiScore === 'number' ? show._apiScore : 0;
+      return { weight, rating, api };
+    };
+    const candidates = data.map(d=>({ ...d.show, _apiScore: d.score }))
+      .map(show=>({ show, comp: computeShowScore(q, show) }));
+
+    const popularitySort = (a,b)=>{
+      const pa = getPopularity(a.show), pb = getPopularity(b.show);
+      if(pb.weight !== pa.weight) return pb.weight - pa.weight;
+      if(b.comp.score !== a.comp.score) return b.comp.score - a.comp.score;
+      if(pb.rating !== pa.rating) return pb.rating - pa.rating;
+      return pb.api - pa.api;
+    };
+
+    // Primary relevant results
+    let primary = candidates.filter(x =>
+      x.comp.score >= SUGGEST.minScore || x.comp.parts.pref > 0 || x.comp.parts.sub >= 0.5 || x.comp.parts.sim >= 0.5
+    ).sort(popularitySort);
+
+    // If not enough, relax to fill up to minItems with most popular remaining candidates that still have any similarity
+    if(primary.length < SUGGEST.minItems){
+      const existingIds = new Set(primary.map(x=>x.show.id));
+      const secondary = candidates
+        .filter(x => !existingIds.has(x.show.id))
+        .filter(x => x.comp.parts.sim > 0 || x.comp.parts.sub > 0) // very lax relevance
+        .sort(popularitySort);
+      primary = primary.concat(secondary).slice(0, Math.max(SUGGEST.minItems, SUGGEST.maxItems));
+    }
+
+    const enriched = primary.map(x => x.show);
+    renderSuggestions(enriched, q);
+  }catch{
+    hideSuggestions();
+  }
+}
+
+async function loadShowById(id){
+  setLoading();
+  loader.style.display = 'inline-block';
+  try{
+    const res = await fetch(`https://api.tvmaze.com/shows/${id}?embed=episodes`);
+    if(!res.ok){ showErrorMessage('Série introuvable !'); return; }
+    const data = await res.json();
+    episodes = data._embedded?.episodes || [];
+    populateSeasonSelects(episodes);
+    displayEpisodes();
+    info.textContent = `Série: ${data.name}`;
+    stats.textContent = `${episodes.length} épisodes — ${Math.max(...episodes.map(e=>e.season))} saisons (est)`;
+    // update cache under normalized key
+    const q = searchInput.value.trim();
+    if(q){
+      searchCache.set(cacheKeyFromQuery(q), data);
+      while(searchCache.size > CACHE_LIMIT){ const firstKey = searchCache.keys().next().value; searchCache.delete(firstKey); }
+      try{ localStorage.setItem('findflix_cache_v1', JSON.stringify(Object.fromEntries(searchCache))); }catch{}
+    }
+  }catch{
+    showErrorMessage('Erreur réseau ou API.');
+  }finally{
+    loader.style.display = 'none';
+  }
+}
+
 async function searchSeries(){
   const query = searchInput.value.trim();
   if(!query) return;
@@ -49,11 +248,12 @@ async function searchSeries(){
   loader.style.display = 'inline-block';
   try{
     // cache lookups to avoid repeated network calls while typing
-    if(searchCache.has(query)){
+    const ck = cacheKeyFromQuery(query);
+    if(searchCache.has(ck)){
       // move to recent (LRU behavior)
-      const data = searchCache.get(query);
-      searchCache.delete(query);
-      searchCache.set(query, data);
+      const data = searchCache.get(ck);
+      searchCache.delete(ck);
+      searchCache.set(ck, data);
       episodes = data._embedded?.episodes || [];
       populateSeasonSelects(episodes);
       displayEpisodes();
@@ -63,19 +263,40 @@ async function searchSeries(){
       return;
     }
 
-    const res = await fetch(`https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(query)}&embed=episodes`);
-    if(!res.ok){
-      carousel.innerHTML = '<p>❌ Série introuvable !</p>';
-      stats.style.display = 'none';
-      setSelectsEnabled(false);
+    // Perform tolerant search
+    const searchRes = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(query)}`);
+    if(!searchRes.ok){ showErrorMessage('Série introuvable !'); return; }
+    const results = await searchRes.json(); // [{ score, show }]
+    if(!Array.isArray(results) || results.length === 0){ showErrorMessage('Série introuvable !'); return; }
+
+    // choose best by combined score (text similarity + API score)
+    const nq = normalizeText(query);
+    let best = null;
+    for(const item of results){
+      const show = item?.show; if(!show || !show.name) continue;
+      const sim = similarity(nq, show.name);
+      const apiScore = typeof item.score === 'number' ? item.score : 0;
+      // weight: prioritize our similarity to be robust to case/typos
+      const combined = TOLERANT_SEARCH.weightSim * sim + TOLERANT_SEARCH.weightApi * apiScore;
+      if(!best || combined > best.combined){ best = { combined, sim, apiScore, show }; }
+    }
+    if(!best){ showErrorMessage('Série introuvable !'); return; }
+
+    // Optional threshold to avoid wild mismatches
+    if(best.sim < TOLERANT_SEARCH.minSim && best.combined < TOLERANT_SEARCH.minCombined){
+      showErrorMessage('Série introuvable !');
       return;
     }
+
+    // Fetch chosen show with episodes
+    const res = await fetch(`https://api.tvmaze.com/shows/${best.show.id}?embed=episodes`);
+    if(!res.ok){ showErrorMessage('Série introuvable !'); return; }
     const data = await res.json();
   // ignore if a newer request was made
   if(requestToken !== currentRequestToken) return;
-  // store in cache (memory + localStorage)
+  // store in cache (memory + localStorage) using normalized key
   // insert into cache, enforce LRU cap
-  searchCache.set(query, data);
+  searchCache.set(cacheKeyFromQuery(query), data);
   while(searchCache.size > CACHE_LIMIT){
     const firstKey = searchCache.keys().next().value;
     searchCache.delete(firstKey);
@@ -94,9 +315,7 @@ async function searchSeries(){
     stats.textContent = `${episodes.length} épisodes — ${Math.max(...episodes.map(e=>e.season))} saisons (est)`;
   }catch(err){
     console.error(err);
-    carousel.innerHTML = '<p>Erreur réseau ou API.</p>';
-    loader.style.display = 'none';
-    setSelectsEnabled(false);
+    showErrorMessage('Erreur réseau ou API.');
   }
   loader.style.display = 'none';
 }
@@ -245,11 +464,60 @@ searchInput.addEventListener('input', async (e)=>{
   const q = e.target.value.trim();
   if(!q){
     await loadTop20Series();
+    hideSuggestions();
     return;
   }
+  // kick off suggestions immediately, and also keep the debounced full search
+  fetchSuggestions(q);
   debouncedSearch();
+  // update dropdown position as the layout can shift while typing
+  positionSuggestionsDropdown();
 });
 searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') searchSeries() });
+
+// Suggestions: click + keyboard navigation
+suggestionsEl.addEventListener('click', (e)=>{
+  const item = e.target.closest('.suggestion-item');
+  if(!item) return;
+  const id = item.getAttribute('data-id');
+  const title = item.querySelector('.suggestion-title')?.textContent || '';
+  searchInput.value = title;
+  hideSuggestions();
+  loadShowById(id);
+});
+
+searchInput.addEventListener('keydown', (e)=>{
+  if(suggestionsEl.hidden) return;
+  const items = Array.from(suggestionsEl.querySelectorAll('.suggestion-item'));
+  if(items.length===0) return;
+  const currentIndex = items.findIndex(el=> el.classList.contains('active'));
+  const setActive = (idx)=>{
+    items.forEach((el,i)=>{ el.classList.toggle('active', i===idx); el.setAttribute('aria-selected', i===idx ? 'true':'false'); });
+    if(idx>=0) items[idx].scrollIntoView({block:'nearest'});
+  };
+  if(e.key==='ArrowDown'){ e.preventDefault(); const ni = Math.min((currentIndex+1)||0, items.length-1); setActive(ni); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); const ni = Math.max((currentIndex<=0? -1: currentIndex-1), -1); setActive(ni); }
+  else if(e.key==='Enter'){
+    const idx = currentIndex>=0? currentIndex : 0;
+    const chosen = items[idx]; if(!chosen) return;
+    e.preventDefault();
+    const id = chosen.getAttribute('data-id');
+    const title = chosen.querySelector('.suggestion-title')?.textContent || '';
+    searchInput.value = title;
+    hideSuggestions();
+    loadShowById(id);
+  } else if(e.key==='Escape'){
+    hideSuggestions();
+  }
+});
+
+document.addEventListener('click', (e)=>{
+  if(e.target.closest('.search-input-wrapper')) return;
+  hideSuggestions();
+});
+
+window.addEventListener('resize', positionSuggestionsDropdown);
+window.addEventListener('scroll', positionSuggestionsDropdown, true);
 
 // reset height on resize
 window.addEventListener('resize', ()=>{ resetCarouselHeight(); });

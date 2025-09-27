@@ -13,7 +13,10 @@
     <div class="hero-logo" aria-hidden="true"></div>
     <p class="hero-sub">Trouve une série et choisis une plage de saisons — la sélection se fait automatiquement.</p>
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Tape le nom d'une série...">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="Tape le nom d'une série..." aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false" aria-haspopup="listbox">
+        <div id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions" hidden></div>
+      </div>
       <!-- season selects will be populated dynamically -->
   <select id="seasonMin" aria-label="Saison minimale"></select>
   <select id="seasonMax" aria-label="Saison maximale"></select>
@@ -27,13 +30,7 @@
       <p id="stats" aria-live="polite"></p>
     </div>
     <div id="loader" class="loader" aria-hidden="true" style="display:none"></div>
-    <div
-      id="episodes"
-      class="episodes"
-      style="overflow-y:auto; max-height:60vh; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;"
-      tabindex="0"
-      aria-label="Liste des épisodes défilable">
-    </div>
+    <div id="episodes" class="episodes"></div>
     <button class="random-btn" id="randomBtn">Choisir un épisode</button>
   </div>
 
