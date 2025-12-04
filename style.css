@@ -684,6 +684,7 @@ a {
     box-shadow: var(--shadow-sm);
     font-weight: 600;
     align-self: start;
+    transition: all var(--transition-smooth);
 }
 
 .project-card .card-link::after {
@@ -753,7 +754,7 @@ a {
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-smooth);
     position: relative;
     z-index: 1;
 }
