@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>FindFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="FindFlix.css">
+  <script src="FindFlix.js" defer></script>
+</head>
+<body>
+  <!-- Hero with background logo -->
+  <section class="hero">
+    <div class="hero-logo" aria-hidden="true"></div>
+    <p class="hero-sub">Trouve une série et choisis une plage de saisons — la sélection se fait automatiquement.</p>
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="Tape le nom d'une série..." aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false" aria-haspopup="listbox">
+        <div id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions" hidden></div>
+      </div>
+      <!-- season selects will be populated dynamically -->
+  <select id="seasonMin" aria-label="Saison minimale"></select>
+  <select id="seasonMax" aria-label="Saison maximale"></select>
+    </div>
+  </section>
+
+  <!-- Carrousel -->
+  <div class="carousel" id="carousel">
+    <div class="meta">
+      <p id="info">➡️ Tape une série pour voir ses épisodes...</p>
+      <p id="stats" aria-live="polite"></p>
+    </div>
+    <div id="loader" class="loader" aria-hidden="true" style="display:none"></div>
+    <div id="episodes" class="episodes"></div>
+    <button class="random-btn" id="randomBtn">Choisir un épisode</button>
+  </div>
+
+</body>
+</html>

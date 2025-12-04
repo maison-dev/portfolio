@@ -1,0 +1,355 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.control-panel {
+    width: 100%;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    max-height: auto;
+    overflow-y: visible;
+}
+
+.control-panel h2 {
+    color: #333;
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.control-group {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.control-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.control-group select,
+.control-group input[type="color"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #dee2e6;
+    border-radius: 5px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.control-group select:hover,
+.control-group select:focus,
+.control-group input[type="color"]:hover,
+.control-group input[type="color"]:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.control-group input[type="color"] {
+    height: 45px;
+    cursor: pointer;
+}
+
+.preset-colors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.color-btn {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 3px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.color-btn:hover {
+    transform: scale(1.05);
+    border-color: #667eea;
+}
+
+.color-btn.active {
+    border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+.current-color-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    border: 2px solid #dee2e6;
+}
+
+.current-color-display span {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95em;
+}
+
+#current-color {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+}
+
+.tool-btn {
+    display: inline-block;
+    padding: 12px 16px;
+    margin-right: 10px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #667eea;
+    color: white;
+    min-width: auto;
+    width: auto;
+}
+
+.tool-btn:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.tool-btn.clear {
+    background: #ff6b6b;
+}
+
+.tool-btn.clear:hover {
+    background: #ee5a52;
+}
+
+.tool-btn.download {
+    background: #51cf66;
+}
+
+.tool-btn.download:hover {
+    background: #40c057;
+}
+
+.canvas-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+
+.grid {
+    display: grid;
+    gap: 1px;
+    background: #333;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pixel {
+    cursor: crosshair;
+    background: white;
+    border: 1px solid #ddd;
+    transition: background-color 0.1s;
+}
+
+.pixel:hover {
+    opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        border-radius: 0;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    .main-content {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .control-panel {
+        width: 100%;
+        max-height: none;
+        padding: 15px;
+    }
+
+    .control-panel h2 {
+        font-size: 1.1em;
+    }
+
+    .canvas-container {
+        min-height: 300px;
+        justify-content: center;
+    }
+
+    .grid {
+        padding: 5px;
+    }
+
+    .control-group {
+        display: block;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .tool-btn {
+        padding: 10px;
+        font-size: 0.9em;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .preset-colors {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+        margin-bottom: 5px;
+    }
+
+    header p {
+        font-size: 0.9em;
+    }
+
+    header {
+        padding: 15px;
+    }
+
+    .main-content {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .control-panel {
+        padding: 12px;
+    }
+
+    .control-group {
+        display: block;
+        margin-bottom: 12px;
+        margin-right: 0;
+    }
+
+    .control-group label {
+        font-size: 0.9em;
+        margin-bottom: 6px;
+    }
+
+    .control-group select,
+    .control-group input[type="color"] {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .control-group input[type="color"] {
+        height: 40px;
+    }
+
+    #current-color {
+        width: 35px;
+        height: 35px;
+    }
+
+    .tool-btn {
+        padding: 10px;
+        margin-bottom: 8px;
+        margin-right: 0;
+        font-size: 0.85em;
+        display: block;
+        width: 100%;
+    }
+
+    .preset-colors {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .canvas-container {
+        min-height: 250px;
+    }
+}

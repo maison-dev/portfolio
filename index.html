@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison.dev2025 - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER SECTION -->
+        <header class="header">
+            <div class="header-content">
+                <div class="profile-section">
+                    <div class="profile-info">
+                        <h1 class="name">Maison.dev2025</h1>
+                        <p class="subtitle">Développeur web créatif et passionné</p>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Basculer le thème">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- BENTO GRID SECTION -->
+        <main class="bento-grid">
+            <!-- PROJET 1 - La Table de Marie -->
+            <article class="bento-card project-card">
+                <div class="card-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>La Table de Marie</h3>
+                <p>Site web pour restaurant avec menu PDF, photos de plats, affichage de la carte (Google Maps), formulaire de contact.</p>
+                <div class="card-tags">
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">Restaurant</span>
+                </div>
+                <a target="_blank" rel="noopener noreferrer" href="projets/restaurant/latabledemarie.html" class="card-link">Découvrir <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <!-- PROJET 2 - Pix'art -->
+            <article class="bento-card project-card">
+                <div class="card-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Pix'art</h3>
+                <p>Site web de pixel art permettant de dessiner en 16×16 ou 32×32 et de télécharger son dessin.</p>
+                <div class="card-tags">
+                    <span class="tag">Canvas</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+                <a target="_blank" rel="noopener noreferrer" href="projets/Pix'art/index.html" class="card-link">Créer <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <!-- LIENS CARD -->
+            <article class="bento-card links-card">
+                <div class="card-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h3>Liens</h3>
+                <div class="links-container">
+                    <a href="https://www.malt.fr" target="_blank" rel="noopener noreferrer" class="link-item">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Malt</span>
+                    </a>
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="link-item">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- FORMULAIRE DE CONTACT -->
+            <article class="bento-card contact-card">
+                <div class="card-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Me Contacter</h3>
+                <form id="contactForm" action="https://formspree.io/f/mkgqnogd" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <input 
+                            type="text" 
+                            name="name" 
+                            id="name" 
+                            placeholder="Votre nom" 
+                            required 
+                            class="form-input"
+                            minlength="2"
+                        >
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            placeholder="Votre email" 
+                            required 
+                            class="form-input"
+                        >
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea 
+                            name="message" 
+                            id="message" 
+                            placeholder="Votre message" 
+                            required 
+                            class="form-input form-textarea"
+                            minlength="5"
+                            rows="4"
+                        ></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+                    <button type="submit" class="form-submit">Envoyer</button>
+                </form>
+            </article>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2025 Maison.dev2025. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

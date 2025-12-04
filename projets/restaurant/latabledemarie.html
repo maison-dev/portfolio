@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Table de Marie</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <section class="relative h-[100vh] flex items-center justify-center text-center text-white"
+           style="background-image: url('images/latabledemarie.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    <div class="relative z-10">
+      <h1 class="text-5xl font-bold">La Table de Marie</h1>
+    </div>
+  </section>
+  <section class="py-16 container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-8">Nos Plats</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="overflow-hidden rounded-xl shadow hover:scale-105 transition">
+        <img src="images/plat1.jpg" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this)">
+      </div>
+      <div class="overflow-hidden rounded-xl shadow hover:scale-105 transition">
+        <img src="images/plat2.jpg" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this)">
+      </div>
+      <div class="overflow-hidden rounded-xl shadow hover:scale-105 transition">
+        <img src="images/plat3.jpg" class="w-full h-64 object-cover cursor-pointer" onclick="openLightbox(this)">
+      </div>
+    </div>
+  </section>
+  <section class="py-16 text-center">
+    <h2 class="text-3xl font-bold mb-6">Notre Carte</h2>
+    <div class="container mx-auto px-6">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <iframe src="menu.pdf" class="w-full h-[800px] border-0" title="Menu du restaurant">
+          Votre navigateur ne supporte pas les PDFs. Vous pouvez <a href="menu.pdf">télécharger le menu</a> à la place.
+        </iframe>
+      </div>
+      <div class="mt-4">
+        <a href="menu.pdf" download class="inline-flex items-center text-blue-600 hover:text-blue-800">
+
+        </a>
+      </div>
+    </div>
+  </section>
+<!-- Section Contact -->
+<section id="contact" class="py-20 bg-gray-100">
+  <div class="container mx-auto px-6">
+    <h3 class="text-3xl font-bold text-center mb-10">Nous Contacter</h3>
+    
+    <!-- Coordonnées -->
+    <div class="text-center mb-10 space-y-2">
+      <p class="text-lg">📞 <a href="tel:+330123456789" class="text-red-600 hover:underline">01 23 45 67 89</a></p>
+      <p class="text-lg">📧 <a href="mailto:contact@latabledemarie.fr" class="text-red-600 hover:underline">contact@latabledemarie.fr</a></p>
+      <p class="text-lg">📍 12 Rue des Gourmets, 75000 Paris</p>
+    </div>
+
+    <!-- Conteneur pour la carte et le formulaire côte à côte -->
+    <div class="flex flex-col lg:flex-row gap-8 mb-10">
+      <!-- Google Map -->
+      <div class="w-full lg:w-1/2 h-96 rounded-xl overflow-hidden shadow-lg">
+        <iframe 
+          class="w-full h-full"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.215595834613!2d2.3522219!3d48.8566134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sfr!2sfr!4v1630000000000!5m2!1sfr!2sfr" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <!-- Formulaire de contact -->
+      <div class="w-full lg:w-1/2">
+      <div id="popup" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-xl shadow-lg text-center max-w-sm">
+          <h4 class="text-xl font-bold mb-2">Merci !</h4>
+          <p>Votre message a bien été envoyé.</p>
+          <button onclick="closePopup()" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+            Fermer
+          </button>
+        </div>
+      </div>
+
+      <form id="contact-form" action="https://formspree.io/f/mjkgwxyz" method="POST"
+            class="bg-white p-8 rounded-xl shadow-lg space-y-6">
+        <div class="space-y-2">
+          <label for="nom" class="block text-gray-700 font-medium">Votre nom</label>
+          <input type="text" id="nom" name="nom" required 
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+        </div>
+        
+        <div class="space-y-2">
+          <label for="email" class="block text-gray-700 font-medium">Votre email</label>
+          <input type="email" id="email" name="email" required
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+        </div>
+        
+        <div class="space-y-2">
+          <label for="message" class="block text-gray-700 font-medium">Votre message</label>
+          <textarea id="message" name="message" rows="5" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"></textarea>
+        </div>
+        
+        <input type="text" name="_gotcha" style="display:none">
+        
+        <div class="pt-2">
+          <button type="submit" 
+                  class="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-700 transition duration-200">
+            Envoyer le message
+          </button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- JS de protection -->
+<script src="../../js/form-protect.js"></script>
+  <script src="../../js/form-protect.js"></script>
+  <script>
+    // Fonction pour ouvrir la lightbox avec l'image cliquée
+    function openLightbox(element) {
+        console.log('Fonction openLightbox appelée', element);
+        // Créer l'élément de la lightbox s'il n'existe pas
+        let lightbox = document.getElementById('imageLightbox');
+        
+        if (!lightbox) {
+            // Créer les éléments de la lightbox
+            lightbox = document.createElement('div');
+            lightbox.id = 'imageLightbox';
+            lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50';
+            lightbox.style.display = 'flex';
+            lightbox.innerHTML = `
+                <div class="relative max-w-4xl w-full p-4">
+                    <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-2xl hover:text-gray-300">
+                        &times;
+                    </button>
+                    <img src="" alt="Image en grand format" class="max-h-[80vh] max-w-full mx-auto">
+                    <p class="text-white mt-2 text-center"></p>
+                </div>
+            `;
+            document.body.appendChild(lightbox);
+        }
+        
+        // Mettre à jour l'image et l'alt text
+        const img = lightbox.querySelector('img');
+        const caption = lightbox.querySelector('p');
+        img.src = element.src;
+        img.alt = element.alt;
+        caption.textContent = element.alt || '';
+        
+        // Afficher la lightbox
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Fonction pour fermer la lightbox
+    function closeLightbox() {
+        const lightbox = document.getElementById('imageLightbox');
+        if (lightbox) {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Fermer la lightbox avec la touche Échap
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
+    // Fermer la lightbox en cliquant en dehors de l'image
+    document.addEventListener('click', function(event) {
+        const lightbox = document.getElementById('imageLightbox');
+        if (lightbox && event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+  </script>
+</body>
+</html>

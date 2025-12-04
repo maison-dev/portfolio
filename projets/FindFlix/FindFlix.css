@@ -1,0 +1,255 @@
+/* FindFlix.css - styles separated from HTML */
+:root{
+  --bg:#243d34; /* dark background requested */
+  --cream:#edebe5;
+  --accent:#e50914;
+  --accent-hover:#f40612;
+  --card:#243d34; /* episode card background */
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body {
+  margin: 0;
+  font-family: 'Manrope', system-ui, Arial, sans-serif;
+  background: var(--bg) !important;
+  color: #edebe5; /* light text on dark background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  
+}
+
+/* Loader */
+.loader{ width:36px; height:36px; border-radius:50%; border:4px solid rgba(255,255,255,0.15); border-top-color:rgba(255,255,255,0.5); animation:spin 1s linear infinite; margin-right:12px }
+@keyframes spin{ to{transform:rotate(360deg)} }
+
+/* positionner le bouton en bas du carousel (géré par le bloc .carousel plus bas) */
+
+/* ensure h1 uses the same font as body (Manrope) */
+h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
+
+
+/* Hero */
+.hero{
+  width:100%;
+  height:40vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  text-align:center;
+  margin:0 0 18px 0;
+  background: linear-gradient(180deg, rgba(36,61,52,0.06), rgba(36,61,52,0.06));
+  overflow: hidden;
+}
+.hero-logo{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events: none;
+}
+.hero-logo::before{
+  content: 'FindFlix';
+  font-family: inherit;
+  font-size: 450px;
+  color: rgba(237,235,229,0.12);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.hero-sub{ color:#edebe5; margin-top:0; margin-bottom:16px; z-index:2 }
+
+/* (redundant search-bar rules supprimés) */
+
+
+.search-bar {
+  margin: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar input,
+.search-bar select {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  min-width: 140px;
+  background: #ffffff;
+  color: var(--card);
+}
+
+/* Autocomplete */
+.search-input-wrapper{ position:relative; display:inline-block; min-width:260px }
+.suggestions{
+  position:fixed; /* positioned by JS to align under the input; avoids hero overflow clipping */
+  background:#fff; color:#243d34; border:1px solid rgba(0,0,0,0.12); border-radius:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  max-height:260px; overflow:auto; z-index: 9999;
+}
+.suggestion-item{ padding:5px 10px; cursor:pointer; display:flex; align-items:center; gap:10px }
+.suggestion-item:hover, .suggestion-item.active{ background:#f5f7f9 }
+.suggestion-title{ font-weight:700 }
+.suggestion-sub{ font-size:12px; color:#666 }
+.suggestion-thumb{ width:40px; object-fit:cover; border-radius:4px; flex:0 0 auto }
+
+/* (styles bouton dans la barre de recherche supprimés car non utilisés) */
+
+.meta{width:90%;max-width:1200px;padding:0 20px}
+#info{margin:0 0 8px 0; color: rgba(0,0,0,0.85); }
+#stats{font-size:.9rem;color:rgba(0,0,0,0.6);margin:0 0 12px 0}
+
+/* .carousel-wrapper non utilisé sur la page, supprimé */
+.carousel {
+  display: flex;
+  flex-direction: column; /* stack loader, episodes row, button */
+  gap: 12px;
+  padding: 20px;
+  scroll-behavior: smooth;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 300px;
+  align-items: stretch;
+  transition: min-height 300ms ease, background 300ms ease;
+  background: transparent;
+  position: absolute;
+  top: 33%;
+}
+
+
+/* episodes row inside carousel should be horizontal and full height */
+#episodes{ display: flex; gap: 16px; overflow-x: auto; padding: 18px 10px; align-items: center;height: 300px;width: 100%;box-shadow: inset rgba(128, 128, 128, 0.551) 5px 5px 10px; border-radius: 10px;}
+
+/* add subtle border to carousel and meta */
+.carousel{ border:1px solid rgba(0,0,0,0.06); background:#edebe5 }
+.meta{ border-bottom:1px solid rgba(0,0,0,0.04); padding-bottom:12px }
+
+.episode {
+  /* fixed card size to match 250x140 images */
+  flex: 0 0 250px;
+  width: 250px;
+  height: 250px;
+  background: var(--card);
+  /* layout */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-self: center;
+  /* visuals */
+  box-sizing:border-box;
+  overflow: hidden;
+  text-align: center;
+  color: var(--bg);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transform-origin: center center;
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1), box-shadow 260ms ease, background 260ms ease;
+  /* modern tiny card look */
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  opacity:0;
+  transform:translateY(10px);
+  animation:cardIn 380ms ease forwards;
+}
+
+.episode img{ width:250px; height:140px; object-fit:cover; display:block }
+
+.episode p{ margin:6px 8px; font-size:0.95rem; font-weight: bold; }
+
+/* episode layout handled above (30% cards) */
+
+/* .episode.selected neutralized intentionally - no extra styles */
+
+.ep-meta{ padding:10px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1 }
+.ep-season{ margin:0; font-size:14px; color: #edebe5 }
+.ep-title{ margin:6px 0 0 0; font-size:28px; text-align:center; line-height:1.05; color: #edebe5; word-break:break-word }
+
+/* prevent image/card overflow (intégré dans .episode et .episode img) */
+
+/* empty / no results message */
+.empty-message{
+  color: #243d34;
+  text-align: center;
+  width: 100%;
+  font-weight: 700;
+  padding: 18px 0;
+}
+
+/* remove hover effect that cancels selected scale; give only non-selected a subtle lift */
+.episode:not(.selected):hover{ transform: translateY(-6px); box-shadow:0 8px 24px rgba(0,0,0,0.15) }
+
+/* text color inside card should contrast with dark card */
+.episode p, .episode h3, .episode small { color: var(--bg) }
+
+/* remove rule that cancelled hover on selected so selected keeps its scale on hover */
+.episode:focus{ outline: 2px solid rgba(0,0,0,0.08); }
+
+/* selected card styling: dark background and light text */
+.episode.selected{
+  background: #243d34;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+  transform: translateY(-4px);
+}
+.episode.selected .ep-season,
+.episode.selected .ep-title,
+.episode.selected p,
+.episode.selected h3,
+.episode.selected small{
+  color: #edebe5;
+}
+
+.random-btn{ margin:8px auto 0 auto; padding:14px 30px; font-weight:700; background:#edebe5; color:#243d34; box-shadow:none; border:1px solid rgba(0,0,0,0.12); width:260px; align-self:center }
+
+@keyframes cardIn{ to{ opacity:1; transform:none } }
+
+/* small screens */
+@media (max-width:600px){
+  .episode{width:140px}
+  .episode img{height:80px}
+  .carousel{min-height:220px}
+}
+
+/* scroll bar styling (macOS/modern browsers) */
+.carousel::-webkit-scrollbar{height:10px}
+.carousel::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:10px}
+
+/* small helper for hidden text animation */
+.faded{opacity:.85;transition:opacity 220ms ease}
+
+/* visually friendly focus */
+select:focus,input:focus,button:focus{outline:2px solid rgba(255,255,255,0.06);outline-offset:2px}
+
+/* make buttons and selects show pointer cursor */
+button, select { cursor: pointer; }
+
+/* clickable episode cards should show pointer */
+.episode.clickable{ cursor: pointer; }
+
+/* disabled selects should look greyed and not interactive but remain visible */
+select:disabled{
+  background: #f0f0f0;
+  color: #999999;
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* apply 8px border-radius to main visual elements */
+input, select, .episode, .random-btn, .carousel { border-radius: 8px }
+
+/* Error message inside carousel */
+.error-message{ color:#243d34; background:transparent; text-align:center; font-weight:700; padding:12px 16px; border-radius:8px; align-self:center }
+
+/* Center the message inside the episodes area when it is the only content */
+#episodes:has(.error-message){ justify-content:center; }
+
+/* When carousel only has the error message, center it perfectly */
+.carousel:has(.error-message){
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}

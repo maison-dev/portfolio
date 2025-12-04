@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix'art - Pixel Art Drawing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Pix'art</h1>
+            <p>Créez votre art pixel</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Panel de contrôle -->
+            <aside class="control-panel">
+                <!-- Sélection de taille -->
+                <div class="control-group">
+                    <label for="grid-size">Taille de grille:</label>
+                    <select id="grid-size">
+                        <option value="16">16x16</option>
+                        <option value="32" selected>32x32</option>
+                    </select>
+                </div>
+
+                <!-- Couleurs prédéfinies -->
+                <div class="control-group">
+                    <label>Couleurs:</label>
+                    <div class="preset-colors">
+                        <div class="color-btn" data-color="#FF0000" style="background-color: #FF0000;" title="Rouge"></div>
+                        <div class="color-btn" data-color="#00FF00" style="background-color: #00FF00;" title="Vert"></div>
+                        <div class="color-btn" data-color="#0000FF" style="background-color: #0000FF;" title="Bleu"></div>
+                        <div class="color-btn" data-color="#FFFF00" style="background-color: #FFFF00;" title="Jaune"></div>
+                        <div class="color-btn" data-color="#FF00FF" style="background-color: #FF00FF;" title="Magenta"></div>
+                        <div class="color-btn" data-color="#000000" style="background-color: #000000;" title="Noir"></div>
+                    </div>
+                </div>
+
+                <!-- Roue des couleurs -->
+                <div class="control-group">
+                    <label for="color-picker">Roue des couleurs:</label>
+                    <input type="color" id="color-picker" value="#FF0000">
+                </div>
+
+                <!-- Couleur actuelle -->
+                <div class="control-group">
+                    <div class="current-color-display">
+                        <span>Couleur:</span>
+                        <div id="current-color" style="background-color: #FF0000;"></div>
+                    </div>
+                </div>
+
+                <!-- Outils -->
+                <div class="control-group">
+                    <button id="eraser-btn" class="tool-btn">🧹 Gomme</button>
+                    <button id="clear-btn" class="tool-btn clear">🗑️ Effacer tout</button>
+                    <button id="download-btn" class="tool-btn download">⬇️ Télécharger</button>
+                </div>
+            </aside>
+
+            <!-- Grille de dessin -->
+            <main class="canvas-container">
+                <div id="grid" class="grid"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
