@@ -2,69 +2,87 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Pix'art - Pixel Art Drawing</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎨 Pix'art</h1>
-            <p>Créez votre art pixel</p>
+    <div class="app-container">
+        <!-- HEADER avec burger menu -->
+        <header class="app-header">
+            <button id="menu-toggle" class="menu-btn" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+            <h1 class="app-title">🎨 Pix'art</h1>
+            <div class="header-spacer"></div>
         </header>
 
-        <div class="main-content">
-            <!-- Panel de contrôle -->
-            <aside class="control-panel">
-                <!-- Sélection de taille -->
-                <div class="control-group">
-                    <label for="grid-size">Taille de grille:</label>
-                    <select id="grid-size">
-                        <option value="16">16x16</option>
-                        <option value="32" selected>32x32</option>
-                    </select>
-                </div>
+        <!-- GRILLE PRINCIPALE (occupe tout l'espace disponible) -->
+        <main class="canvas-area">
+            <div id="grid" class="grid"></div>
+        </main>
 
-                <!-- Couleurs prédéfinies -->
-                <div class="control-group">
-                    <label>Couleurs:</label>
-                    <div class="preset-colors">
-                        <div class="color-btn" data-color="#FF0000" style="background-color: #FF0000;" title="Rouge"></div>
-                        <div class="color-btn" data-color="#00FF00" style="background-color: #00FF00;" title="Vert"></div>
-                        <div class="color-btn" data-color="#0000FF" style="background-color: #0000FF;" title="Bleu"></div>
-                        <div class="color-btn" data-color="#FFFF00" style="background-color: #FFFF00;" title="Jaune"></div>
-                        <div class="color-btn" data-color="#FF00FF" style="background-color: #FF00FF;" title="Magenta"></div>
-                        <div class="color-btn" data-color="#000000" style="background-color: #000000;" title="Noir"></div>
-                    </div>
-                </div>
+        <!-- CONTROL PANEL (overlay slide-in) -->
+        <nav id="control-panel" class="control-panel" role="navigation" aria-label="Contrôles de dessin">
+            <!-- Sélection de taille de grille -->
+            <div class="control-section">
+                <h2 class="section-title">📏 Grille</h2>
+                <select id="grid-size" class="select-control">
+                    <option value="8" selected>8 × 8</option>
+                    <option value="16">16 × 16</option>
+                    <option value="32">32 × 32</option>
+                </select>
+            </div>
 
+            <!-- Sélection des couleurs -->
+            <div class="control-section">
+                <h2 class="section-title">🎨 Couleurs</h2>
+                
                 <!-- Roue des couleurs -->
-                <div class="control-group">
-                    <label for="color-picker">Roue des couleurs:</label>
-                    <input type="color" id="color-picker" value="#FF0000">
+                <div class="color-picker-wrapper">
+                    <label for="color-picker" class="color-label">Sélecteur:</label>
+                    <input type="color" id="color-picker" class="color-picker" value="#FF0000">
                 </div>
 
                 <!-- Couleur actuelle -->
-                <div class="control-group">
-                    <div class="current-color-display">
-                        <span>Couleur:</span>
-                        <div id="current-color" style="background-color: #FF0000;"></div>
-                    </div>
+                <div class="current-color-box">
+                    <span class="color-label">Actuelle:</span>
+                    <div id="current-color" class="color-preview"></div>
                 </div>
 
-                <!-- Outils -->
-                <div class="control-group">
-                    <button id="eraser-btn" class="tool-btn">🧹 Gomme</button>
-                    <button id="clear-btn" class="tool-btn clear">🗑️ Effacer tout</button>
-                    <button id="download-btn" class="tool-btn download">⬇️ Télécharger</button>
+                <!-- Presets couleurs -->
+                <div class="preset-colors">
+                    <button class="color-btn" data-color="#FF0000" style="background-color: #FF5252;" title="Rouge"></button>
+                    <button class="color-btn" data-color="#00FF00" style="background-color: #66BB6A;" title="Vert"></button>
+                    <button class="color-btn" data-color="#0000FF" style="background-color: #42A5F5;" title="Bleu"></button>
+                    <button class="color-btn" data-color="#FFFF00" style="background-color: #FDD835;" title="Jaune"></button>
+                    <button class="color-btn" data-color="#FF00FF" style="background-color: #AB47BC;" title="Magenta"></button>
+                    <button class="color-btn" data-color="#FFA500" style="background-color: #FFA726;" title="Orange"></button>
+                    <button class="color-btn" data-color="#00FFFF" style="background-color: #29B6F6;" title="Cyan"></button>
+                    <button class="color-btn" data-color="#000000" style="background-color: #424242;" title="Noir"></button>
                 </div>
-            </aside>
+            </div>
 
-            <!-- Grille de dessin -->
-            <main class="canvas-container">
-                <div id="grid" class="grid"></div>
-            </main>
-        </div>
+            <!-- Outils -->
+            <div class="control-section">
+                <h2 class="section-title">🛠️ Outils</h2>
+                <button id="eraser-btn" class="tool-btn">🧹 Gomme</button>
+                <button id="clear-btn" class="tool-btn tool-btn--danger">🗑️ Effacer tout</button>
+            </div>
+
+            <!-- Export -->
+            <div class="control-section">
+                <h2 class="section-title">📥 Export</h2>
+                <button id="download-btn" class="tool-btn tool-btn--success">⬇️ Télécharger PNG</button>
+            </div>
+        </nav>
+
+        <!-- OVERLAY BACKDROP (pour fermer le menu au clic) -->
+        <div id="backdrop" class="backdrop"></div>
     </div>
 
     <script src="script.js"></script>
