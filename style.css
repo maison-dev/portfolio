@@ -10,6 +10,11 @@
     --color-text-muted-light: #666666;
     --color-border-light: #e5e5e5;
     
+    /* Couleurs Mode Clair - Nouvelles */
+    --color-accent-light: #4AAFD5;
+    --color-icon-light: #E7A339;
+    --color-title-light: #91B187;
+    
     /* Couleurs Mode Sombre */
     --color-bg-dark: #0f0f0f;
     --color-bg-card-dark: #1a1a1a;
@@ -53,7 +58,7 @@
 
 /* Mode Sombre par défaut */
 body {
-    --color-bg: var(--color-bg-dark);
+    --color-bg: #31473A;
     --color-bg-card: var(--color-bg-card-dark);
     --color-text: var(--color-text-dark);
     --color-text-muted: var(--color-text-muted-dark);
@@ -67,9 +72,74 @@ body.light-mode {
     --color-text: var(--color-text-light);
     --color-text-muted: var(--color-text-muted-light);
     --color-border: var(--color-border-light);
+    --color-accent: var(--color-accent-light);
+    background-color: #CADCFC;
 }
 
-/* Rappel : si l'utilisateur préfère le mode sombre au niveau système, on laisse le thème sombre par défaut */
+body.light-mode .header {
+    background-color: #CADCFC;
+}
+
+body.light-mode .bento-card {
+    background-color: #8AB6F9;
+}
+
+body.light-mode .card-icon {
+    color: #00246B;
+}
+
+body.light-mode .bento-card h3 {
+    color: white;
+}
+
+body.light-mode .profile-info h1.name {
+    color: #00246B;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+body.light-mode .theme-toggle {
+    background: #00246B;
+    border-color: #00246B;
+    color: white;
+}
+
+body.light-mode .theme-toggle:hover {
+    background: #001a4d;
+    border-color: #001a4d;
+    color: white;
+}
+
+body.light-mode .link-item:hover {
+    background: var(--color-accent-light);
+    border-color: var(--color-accent-light);
+}
+
+body.light-mode .project-card .card-link {
+    background: #00246B;
+    color: white;
+}
+
+body.light-mode .project-card .card-link:hover {
+    background: #001a4d;
+    box-shadow: none;
+}
+
+body.light-mode .tag {
+    color: #ffffff;
+}
+
+body.light-mode .form-submit {
+    background: #00246B;
+    color: white;
+}
+
+body.light-mode .form-submit:hover {
+    background: #001a4d;
+    box-shadow: none;
+}
 
 /* ============================================
    RESET & STYLES GÉNÉRAUX
@@ -120,7 +190,7 @@ a {
     animation: fadeInDown 0.6s ease-out;
     position: sticky;
     top: 0;
-    background: var(--color-bg);
+    background: #31473A;
     z-index: 100;
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid var(--color-border);
@@ -148,10 +218,11 @@ a {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: var(--spacing-xs);
-    background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #7C8363;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
 }
 
 .profile-info p.subtitle {
@@ -188,10 +259,16 @@ a {
     top: var(--spacing-md);
 }
 
-.theme-toggle:hover {
-    background: var(--color-accent);
+.theme-toggle {
+    background: #E7A339;
+    border-color: #E7A339;
     color: white;
-    border-color: var(--color-accent);
+}
+
+.theme-toggle:hover {
+    background: #d4921f;
+    color: white;
+    border-color: #d4921f;
     transform: scale(1.1);
     box-shadow: var(--shadow-md);
 }
@@ -342,7 +419,7 @@ a {
     font-size: 2.5rem;
     margin-bottom: 0;
     margin-right: 0.5rem;
-    color: var(--color-accent);
+    color: #7C8363;
     transition: transform var(--transition-smooth);
     display: inline-flex;
     align-items: center;
@@ -601,7 +678,7 @@ a {
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1rem;
-    background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+    background: #7C8363;
     color: #fff;
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -616,7 +693,7 @@ a {
 .project-card .card-link:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
-    background: linear-gradient(135deg, var(--color-accent-hover), #7c3aed);
+    background: #6b7255;
 }
 
 /* ============================================
@@ -668,7 +745,7 @@ a {
 }
 
 .form-submit {
-    background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+    background: #7C8363;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -684,6 +761,7 @@ a {
 .form-submit:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+    background: #6b7255;
 }
 
 .form-submit:active {
@@ -926,4 +1004,99 @@ a {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+}
+
+/* ============================================
+   GOOGLE TRANSLATE WIDGET
+   ============================================ */
+
+#google_translate_element {
+    display: flex;
+    align-items: center;
+}
+
+.goog-te-gadget {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    margin: 0 !important;
+}
+
+.goog-te-gadget-simple {
+    background: var(--color-bg-card) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.5rem 0.75rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    display: flex;
+    align-items: center;
+}
+
+.goog-te-gadget-simple .goog-te-combo {
+    background: var(--color-bg-card) !important;
+    border: none !important;
+    color: var(--color-accent) !important;
+    font-size: 0.9rem !important;
+    padding: 0.4rem !important;
+    cursor: pointer;
+    font-weight: 600 !important;
+}
+
+.goog-te-gadget-simple .goog-te-combo:hover {
+    background: var(--color-accent) !important;
+    color: white !important;
+}
+
+.goog-te-gadget-simple a.goog-te-menu-value {
+    color: var(--color-accent) !important;
+}
+
+.goog-te-gadget-simple a.goog-te-menu-value span {
+    border: none !important;
+    color: var(--color-accent) !important;
+}
+
+/* Masquer le logo Google */
+.goog-te-gadget-simple .goog-te-menu-value {
+    background-image: none !important;
+}
+
+.goog-te-gadget img {
+    display: none !important;
+}
+
+/* Style de la popup de langue */
+.goog-te-menu2 {
+    background: #000000 !important;
+    border: 1px solid #333333 !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.goog-te-menu2 td {
+    background: #000000 !important;
+}
+
+.goog-te-menu2 .goog-te-menu2-item {
+    color: #ffffff !important;
+}
+
+.goog-te-menu2 .goog-te-menu2-item:hover {
+    background: var(--color-accent) !important;
+    color: white !important;
+}
+
+.goog-te-menu2 .goog-te-menu2-item div {
+    color: #ffffff !important;
+}
+
+.goog-te-menu2 .goog-te-menu2-item:hover div {
+    color: white !important;
+}
+
+/* Masquer la barre de notification de traduction */
+.goog-te-banner {
+    display: none !important;
+}
+
+body {
+    top: 0 !important;
 }
