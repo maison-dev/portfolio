@@ -545,6 +545,7 @@ a {
     justify-content: center;
     padding-top: calc(var(--spacing-sm) / 2);
     padding-bottom: calc(var(--spacing-sm) / 2);
+    margin: 20px 0px;
 }
 
 .links-container {
