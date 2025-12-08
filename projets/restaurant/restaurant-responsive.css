@@ -12,11 +12,13 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    height: 100%;
 }
 
 body {
     overflow-x: hidden;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100%;
 }
 
 /* Images responsive */
@@ -29,8 +31,11 @@ img {
 /* Hero Section Responsive */
 .hero-section,
 section[style*="background-image"] {
-    min-height: 100vh !important;
-    height: 100vh !important;
+    /* Couverture totale y compris les encoches/iPhone */
+    min-height: calc(100vh + env(safe-area-inset-top) + env(safe-area-inset-bottom)) !important;
+    height: calc(100vh + env(safe-area-inset-top) + env(safe-area-inset-bottom)) !important;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Container responsive */
