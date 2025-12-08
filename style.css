@@ -153,6 +153,7 @@ body.light-mode .form-submit:hover {
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -163,11 +164,44 @@ body {
     transition: background-color var(--transition-smooth), color var(--transition-smooth);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 a {
     color: inherit;
     text-decoration: none;
+}
+
+/* Images & Médias Responsive */
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+/* Vidéos responsive */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-wrapper iframe,
+.video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* ============================================
@@ -853,10 +887,43 @@ a {
    RESPONSIVE DESIGN
    ============================================ */
 
-/* Tablette (2 colonnes) */
-@media (max-width: 1024px) {
+/* Grand écran (HD et plus) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+        padding: var(--spacing-xl);
+    }
+
+    .bento-grid {
+        gap: var(--spacing-lg);
+    }
+
+    .bento-card h3 {
+        font-size: 1.4rem;
+    }
+
+    .bento-card p {
+        font-size: 1rem;
+    }
+}
+
+/* Desktop standard */
+@media (min-width: 1025px) and (max-width: 1439px) {
+    .container {
+        max-width: 1200px;
+        padding: var(--spacing-lg);
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Tablette paysage (3 colonnes) */
+@media (min-width: 769px) and (max-width: 1024px) {
     .container {
         padding: var(--spacing-md);
+        max-width: 100%;
     }
 
     .bento-grid {
@@ -868,9 +935,14 @@ a {
         grid-column: span 1;
     }
 
-    /* Sur tablette, faire occuper 2 colonnes à la carte de contact */
-    .contact-card {
+    /* Première carte occupe 2 colonnes */
+    .bento-grid > article.project-card:first-child {
         grid-column: span 2;
+    }
+
+    /* Sur tablette, carte de contact prend toute la largeur */
+    .contact-card {
+        grid-column: span 2 !important;
     }
 
     .links-card {
@@ -880,21 +952,39 @@ a {
     .profile-info h1.name {
         font-size: 1.5rem;
     }
+
+    .profile-info p.subtitle {
+        font-size: 0.9rem;
+    }
+
+    .header-content {
+        gap: var(--spacing-md);
+    }
+
+    .theme-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
 }
 
-/* Mobile (1 colonne) */
-@media (max-width: 768px) {
+/* Tablette portrait et mobile large (2 colonnes) */
+@media (min-width: 481px) and (max-width: 768px) {
     .container {
-        padding: var(--spacing-md);
+        padding: clamp(1rem, 3vw, 1.5rem);
     }
 
     .header {
         padding: var(--spacing-sm) 0;
+        position: sticky;
+        top: 0;
+        background: var(--color-bg);
+        z-index: 100;
     }
 
     .header-content {
         flex-direction: row;
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
         align-items: center;
         justify-content: space-between;
     }
@@ -903,35 +993,168 @@ a {
         flex-direction: row;
         width: auto;
         align-items: center;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .profile-info h1.name {
+        font-size: clamp(1.1rem, 4vw, 1.3rem);
+        word-break: break-word;
+    }
+
+    .profile-info p.subtitle {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+
+    .theme-toggle {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.75rem, 2vw, 1rem);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* Cards prennent 1 colonne par défaut */
+    .project-card {
+        grid-column: span 1;
+    }
+
+    /* Première carte et contact prennent 2 colonnes */
+    .bento-grid > article.project-card:first-child,
+    .contact-card {
+        grid-column: span 2 !important;
+    }
+
+    .links-card {
+        grid-column: span 2;
+    }
+
+    .bento-card {
+        padding: clamp(1rem, 3vw, 1.25rem);
+    }
+
+    .card-icon {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        width: clamp(52px, 12vw, 64px);
+        height: clamp(52px, 12vw, 64px);
+    }
+
+    .bento-card h3 {
+        font-size: clamp(1rem, 3vw, 1.15rem);
+    }
+
+    .bento-card p {
+        font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+    }
+
+    .link-item {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .form-input,
+    .form-textarea {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+
+    .form-submit {
+        padding: 0.7rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile (1 colonne) */
+@media (max-width: 480px) {
+    :root {
+        --spacing-xs: 0.375rem;
+        --spacing-sm: 0.75rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+    }
+
+    html {
+        font-size: 15px;
+    }
+
+    .container {
+        padding: var(--spacing-sm);
+        max-width: 100%;
+    }
+
+    .header {
+        padding: var(--spacing-xs) 0;
+        margin-bottom: var(--spacing-md);
+        position: sticky;
+        top: 0;
+        background: var(--color-bg);
+        z-index: 100;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-content {
+        flex-direction: row;
+        gap: var(--spacing-sm);
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    .profile-section {
+        flex-direction: row;
+        width: auto;
+        align-items: center;
+        flex: 1;
+        min-width: 0;
     }
 
     .profile-img {
         display: none;
     }
 
+    .profile-info {
+        min-width: 0;
+        flex: 1;
+    }
+
     .profile-info h1.name {
-        font-size: 1.3rem;
+        font-size: clamp(1rem, 5vw, 1.25rem);
+        margin-bottom: 0.25rem;
+        word-break: break-word;
+        hyphens: auto;
     }
 
-    .profile-info p.title {
-        font-size: 0.95rem;
+    .profile-info p.subtitle {
+        font-size: clamp(0.75rem, 3vw, 0.85rem);
+        line-height: 1.3;
     }
 
+    .profile-info p.title,
     .profile-info p.bio {
-        max-width: 100%;
+        display: none;
     }
 
     .theme-toggle {
         flex-shrink: 0;
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+        min-width: 38px;
     }
 
     .bento-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
     }
 
-    /* On force chaque card à occuper toute la largeur en mobile */
+    /* Force toutes les cards à 100% largeur */
     .project-card,
     .links-card,
     .contact-card,
@@ -939,59 +1162,189 @@ a {
         grid-column: 1 / -1 !important;
     }
 
-    /* Annuler tout span desktop pour le premier project */
     .bento-grid > article.project-card:first-child {
         grid-column: 1 / -1 !important;
     }
 
+    .bento-card {
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+    }
+
+    .card-icon {
+        font-size: clamp(1.75rem, 8vw, 2rem);
+        width: clamp(48px, 15vw, 56px);
+        height: clamp(48px, 15vw, 56px);
+        margin-right: 0.375rem;
+    }
+
+    .bento-card h3 {
+        font-size: clamp(1rem, 4.5vw, 1.1rem);
+        line-height: 1.3;
+    }
+
+    .bento-card p {
+        font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+        line-height: 1.5;
+    }
+
+    /* Links container */
     .links-container {
         flex-direction: column;
+        gap: var(--spacing-sm);
     }
 
     .link-item {
         flex: none;
         width: 100%;
         max-width: none;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
     }
 
-    .bento-card {
-        padding: var(--spacing-md);
+    .link-item i {
+        font-size: 1.2rem;
     }
 
-    .card-icon {
-        font-size: 2rem;
+    .link-item span {
+        font-size: 0.95rem;
     }
 
-    .bento-card h3 {
-        font-size: 1.1rem;
-    }
-}
-
-/* Très petit écran */
-@media (max-width: 480px) {
-    .container {
-        padding: var(--spacing-sm);
-    }
-
-    .profile-info h1.name {
-        font-size: 1.25rem;
-    }
-
-    .header {
-        margin-bottom: var(--spacing-lg);
-    }
-
-    .bento-card {
-        padding: var(--spacing-md);
-    }
-
+    /* Tags */
     .card-tags {
-        gap: 4px;
+        gap: 0.25rem;
+        flex-wrap: wrap;
     }
 
     .tag {
         font-size: 0.7rem;
         padding: 0.2rem 0.6rem;
+        border-radius: 16px;
+    }
+
+    /* Boutons project */
+    .project-card .card-link {
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+        border-radius: 10px;
+        gap: 0.375rem;
+    }
+
+    .project-card .card-link i {
+        font-size: 0.85rem;
+    }
+
+    /* Formulaire */
+    .contact-card .contact-form {
+        gap: var(--spacing-sm);
+    }
+
+    .form-input,
+    .form-textarea {
+        font-size: 0.9rem;
+        padding: 0.65rem;
+        border-radius: 8px;
+    }
+
+    .form-textarea {
+        min-height: 100px;
+    }
+
+    .form-submit {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Footer */
+    .footer {
+        font-size: 0.8rem;
+        padding-top: var(--spacing-md);
+    }
+
+    /* Toast notifications */
+    .toast {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        font-size: 0.85rem;
+        padding: 0.75rem 1rem;
+        text-align: center;
+    }
+}
+
+/* Très petit écran (320px) */
+@media (max-width: 380px) {
+    :root {
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 0.875rem;
+    }
+
+    html {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0.5rem;
+    }
+
+    .header {
+        padding: 0.5rem 0;
+    }
+
+    .profile-info h1.name {
+        font-size: 1rem;
+    }
+
+    .profile-info p.subtitle {
+        font-size: 0.75rem;
+    }
+
+    .theme-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .bento-card {
+        padding: 0.875rem;
+    }
+
+    .card-icon {
+        font-size: 1.5rem;
+        width: 44px;
+        height: 44px;
+    }
+
+    .bento-card h3 {
+        font-size: 0.95rem;
+    }
+
+    .bento-card p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Orientation paysage sur mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        position: sticky;
+        top: 0;
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bento-card {
+        padding: var(--spacing-sm);
+    }
+
+    .container {
+        padding: var(--spacing-sm);
     }
 }
 

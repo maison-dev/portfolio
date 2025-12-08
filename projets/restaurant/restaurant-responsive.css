@@ -1,0 +1,537 @@
+/* ============================================
+   LA TABLE DE MARIE - STYLES RESPONSIVE
+   ============================================ */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Images responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hero Section Responsive */
+.hero-section,
+section[style*="background-image"] {
+    min-height: 60vh !important;
+    height: clamp(60vh, 100vh, 100vh) !important;
+}
+
+/* Container responsive */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Titres responsive */
+h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem) !important;
+    line-height: 1.2;
+    word-wrap: break-word;
+}
+
+h2 {
+    font-size: clamp(1.75rem, 5vw, 2.25rem) !important;
+    line-height: 1.3;
+}
+
+h3 {
+    font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+}
+
+/* Grid responsive pour les plats */
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+/* Lightbox responsive */
+#imageLightbox {
+    padding: 1rem !important;
+}
+
+#imageLightbox img {
+    max-height: 85vh !important;
+    width: auto !important;
+    max-width: 95vw !important;
+}
+
+#imageLightbox button {
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 0%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* PDF Viewer responsive */
+iframe[src*=".pdf"] {
+    width: 100% !important;
+    height: clamp(500px, 80vh, 800px) !important;
+    border: none;
+    border-radius: 0.75rem;
+}
+
+/* Section Contact */
+#contact {
+    padding-top: clamp(3rem, 8vw, 5rem);
+    padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+/* Coordonnées */
+#contact p {
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    margin: 0.5rem 0;
+}
+
+#contact a {
+    word-break: break-all;
+}
+
+/* Formulaire & Carte côte à côte */
+#contact > .container > .flex {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Google Map responsive */
+#contact iframe[src*="google.com/maps"] {
+    width: 100% !important;
+    height: 350px !important;
+    border-radius: 0.75rem;
+}
+
+/* Formulaire de contact */
+form {
+    width: 100%;
+}
+
+form input,
+form textarea {
+    width: 100% !important;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    padding: 0.75rem 1rem;
+}
+
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form button[type="submit"] {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Boutons généraux */
+a[class*="btn"],
+button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   BREAKPOINTS RESPONSIVE
+   ============================================ */
+
+/* Grand écran (1440px+) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    #contact > .container > .flex {
+        flex-direction: row;
+        gap: 2.5rem;
+    }
+
+    #contact > .container > .flex > * {
+        flex: 1;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 450px !important;
+    }
+}
+
+/* Desktop (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    #contact > .container > .flex {
+        flex-direction: row;
+        gap: 2rem;
+    }
+
+    #contact > .container > .flex > * {
+        flex: 1;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 400px !important;
+    }
+}
+
+/* Tablette (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .hero-section,
+    section[style*="background-image"] {
+        min-height: 50vh !important;
+        height: 70vh !important;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    section[class*="py-"] {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    #contact > .container > .flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 350px !important;
+    }
+
+    iframe[src*=".pdf"] {
+        height: 600px !important;
+    }
+}
+
+/* Mobile large (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .hero-section,
+    section[style*="background-image"] {
+        min-height: 50vh !important;
+        height: 60vh !important;
+    }
+
+    h1 {
+        font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .grid > div {
+        min-height: 200px;
+    }
+
+    .grid img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    section[class*="py-"] {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    #contact > .container > .flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 300px !important;
+    }
+
+    iframe[src*=".pdf"] {
+        height: 500px !important;
+    }
+
+    form input,
+    form textarea {
+        padding: 0.625rem 0.875rem;
+    }
+
+    form button[type="submit"] {
+        padding: 0.75rem 1.25rem;
+    }
+}
+
+/* Mobile (320px - 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .hero-section,
+    section[style*="background-image"] {
+        min-height: 50vh !important;
+        height: 60vh !important;
+        background-attachment: scroll !important;
+    }
+
+    h1 {
+        font-size: clamp(1.5rem, 8vw, 2rem) !important;
+        padding: 0 1rem;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 6vw, 1.875rem) !important;
+    }
+
+    /* Grid en 1 colonne sur mobile */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .grid > div {
+        min-height: 250px;
+    }
+
+    .grid img {
+        height: 250px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+    }
+
+    section[class*="py-"] {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    #contact {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    #contact p {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        line-height: 1.6;
+    }
+
+    #contact a {
+        word-break: break-word;
+        display: inline-block;
+    }
+
+    #contact > .container > .flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 280px !important;
+        border-radius: 0.5rem;
+    }
+
+    iframe[src*=".pdf"] {
+        height: 450px !important;
+        border-radius: 0.5rem;
+    }
+
+    form {
+        padding: 1.5rem;
+    }
+
+    form input,
+    form textarea {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    form textarea {
+        min-height: 100px;
+    }
+
+    form button[type="submit"] {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    /* Lightbox mobile */
+    #imageLightbox {
+        padding: 0.5rem !important;
+    }
+
+    #imageLightbox img {
+        max-height: 75vh !important;
+        max-width: 100vw !important;
+    }
+
+    #imageLightbox button {
+        font-size: 1.75rem;
+        width: 36px;
+        height: 36px;
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+    }
+
+    /* Popup mobile */
+    #popup > div {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+        padding: 1.5rem;
+    }
+}
+
+/* Très petit écran (320px) */
+@media (max-width: 380px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    h1 {
+        font-size: 1.5rem !important;
+    }
+
+    h2 {
+        font-size: 1.375rem !important;
+    }
+
+    .grid img {
+        height: 220px;
+    }
+
+    section[class*="py-"] {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    #contact iframe[src*="google.com/maps"] {
+        height: 250px !important;
+    }
+
+    iframe[src*=".pdf"] {
+        height: 400px !important;
+    }
+
+    form {
+        padding: 1.25rem;
+    }
+
+    form input,
+    form textarea {
+        padding: 0.5rem 0.625rem;
+        font-size: 0.9rem;
+    }
+
+    form button[type="submit"] {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Orientation paysage mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section,
+    section[style*="background-image"] {
+        min-height: 100vh !important;
+        height: 100vh !important;
+    }
+
+    h1 {
+        font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    }
+
+    section[class*="py-"] {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #imageLightbox img {
+        max-height: 90vh !important;
+    }
+}
+
+/* Touch devices - amélioration tactile */
+@media (hover: none) and (pointer: coarse) {
+    a,
+    button,
+    .grid img {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        touch-action: manipulation;
+    }
+
+    form button[type="submit"]:active {
+        transform: scale(0.98);
+    }
+
+    .grid img:active {
+        opacity: 0.9;
+        transform: scale(0.98);
+    }
+}
+
+/* High DPI / Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}

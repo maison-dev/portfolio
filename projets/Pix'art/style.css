@@ -366,6 +366,85 @@ html, body {
     pointer-events: auto;
 }
 
+/* ========== MOBILE OPTIMIZATIONS ========== */
+@media (max-width: 480px) {
+    .app-header {
+        padding: 0 12px;
+        height: 52px;
+    }
+
+    .app-title {
+        font-size: 1rem;
+    }
+
+    .canvas-area {
+        margin-top: 52px;
+        padding: 6px;
+    }
+
+    .control-panel {
+        max-width: 100%;
+        padding: 12px;
+        top: 52px;
+        height: calc(100vh - 52px);
+    }
+
+    .section-title {
+        font-size: 0.8rem;
+    }
+
+    .select-control {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    .tool-btn {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .preset-colors {
+        gap: 6px;
+    }
+
+    .color-picker {
+        height: 44px;
+    }
+
+    .color-preview {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* ========== VERY SMALL SCREENS ========== */
+@media (max-width: 360px) {
+    .app-header {
+        padding: 0 10px;
+        height: 48px;
+    }
+
+    .app-title {
+        font-size: 0.95rem;
+    }
+
+    .canvas-area {
+        margin-top: 48px;
+        padding: 4px;
+    }
+
+    .control-panel {
+        padding: 10px;
+        top: 48px;
+        height: calc(100vh - 48px);
+    }
+
+    .preset-colors {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+}
+
 /* ========== LANDSCAPE MODE ========== */
 @media (orientation: landscape) and (max-height: 500px) {
     .app-header {
@@ -385,6 +464,28 @@ html, body {
     .control-panel {
         top: 48px;
         height: calc(100vh - 48px);
+        max-width: 280px;
+    }
+
+    .control-section {
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .tool-btn {
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+    }
+
+    .preset-colors {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
     }
 }
 

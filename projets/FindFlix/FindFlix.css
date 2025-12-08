@@ -207,11 +207,484 @@ h1 { margin: 20px; font-size: 30px; font-family: inherit ; }
 
 @keyframes cardIn{ to{ opacity:1; transform:none } }
 
-/* small screens */
-@media (max-width:600px){
-  .episode{width:140px}
-  .episode img{height:80px}
-  .carousel{min-height:220px}
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Large desktop (1440px+) */
+@media (min-width: 1440px) {
+  .hero {
+    height: 45vh;
+  }
+
+  .hero-logo::before {
+    font-size: 500px;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    max-width: 700px;
+    padding: 0 20px;
+  }
+
+  .search-bar {
+    gap: 12px;
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 12px 14px;
+    font-size: 1.05rem;
+    min-width: 160px;
+  }
+
+  .episode {
+    flex: 0 0 280px;
+    width: 280px;
+    height: 280px;
+  }
+
+  .episode img {
+    width: 280px;
+    height: 157px;
+  }
+
+  #episodes {
+    gap: 20px;
+    height: 320px;
+  }
+}
+
+/* Standard desktop (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .hero-logo::before {
+    font-size: 400px;
+  }
+
+  .carousel {
+    width: 92%;
+  }
+
+  .meta {
+    width: 92%;
+  }
+}
+
+/* Tablet landscape (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero {
+    height: 35vh;
+  }
+
+  .hero-logo::before {
+    font-size: clamp(250px, 35vw, 350px);
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    padding: 0 20px;
+    max-width: 600px;
+  }
+
+  .search-bar {
+    margin: 16px;
+    gap: 8px;
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 9px 11px;
+    font-size: 0.95rem;
+    min-width: 130px;
+  }
+
+  .search-input-wrapper {
+    min-width: 240px;
+  }
+
+  .carousel {
+    width: 95%;
+    padding: 16px;
+    top: 30%;
+  }
+
+  .meta {
+    width: 95%;
+    padding: 0 16px;
+  }
+
+  .episode {
+    flex: 0 0 220px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .episode img {
+    width: 220px;
+    height: 123px;
+  }
+
+  #episodes {
+    gap: 14px;
+    height: 270px;
+    padding: 16px 8px;
+  }
+
+  .ep-title {
+    font-size: 24px;
+  }
+
+  .random-btn {
+    width: 240px;
+    padding: 12px 26px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Tablet portrait & large mobile (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .hero {
+    height: 30vh;
+    margin-bottom: 12px;
+  }
+
+  .hero-logo::before {
+    font-size: clamp(180px, 40vw, 280px);
+  }
+
+  .hero-sub {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    padding: 0 16px;
+    margin-bottom: 12px;
+  }
+
+  .search-bar {
+    margin: 12px;
+    gap: 8px;
+    flex-direction: column;
+    width: calc(100% - 24px);
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 400px;
+    min-width: 0;
+  }
+
+  .search-input-wrapper {
+    min-width: 0;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .carousel {
+    width: 95%;
+    padding: 14px;
+    top: 28%;
+    min-height: 260px;
+  }
+
+  .meta {
+    width: 95%;
+    padding: 0 14px;
+  }
+
+  #info {
+    font-size: 0.95rem;
+  }
+
+  #stats {
+    font-size: 0.85rem;
+  }
+
+  .episode {
+    flex: 0 0 180px;
+    width: 180px;
+    height: 200px;
+  }
+
+  .episode img {
+    width: 180px;
+    height: 101px;
+  }
+
+  #episodes {
+    gap: 12px;
+    height: 240px;
+    padding: 14px 8px;
+  }
+
+  .ep-title {
+    font-size: 20px;
+  }
+
+  .ep-season {
+    font-size: 13px;
+  }
+
+  .random-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .suggestions {
+    max-height: 200px;
+  }
+}
+
+/* Mobile (320px - 480px) */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .hero {
+    height: 28vh;
+    min-height: 180px;
+    margin-bottom: 10px;
+  }
+
+  .hero-logo::before {
+    font-size: clamp(120px, 50vw, 200px);
+    letter-spacing: 1px;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+    padding: 0 12px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .search-bar {
+    margin: 10px;
+    gap: 8px;
+    flex-direction: column;
+    width: calc(100% - 20px);
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 9px 11px;
+    font-size: 0.9rem;
+    width: 100%;
+    min-width: 0;
+    border-radius: 6px;
+  }
+
+  .search-input-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .carousel {
+    width: 96%;
+    padding: 12px 8px;
+    top: auto;
+    position: relative;
+    margin: 10px auto;
+    min-height: 240px;
+  }
+
+  .meta {
+    width: 96%;
+    padding: 0 10px;
+  }
+
+  #info {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+
+  #stats {
+    font-size: 0.8rem;
+  }
+
+  .episode {
+    flex: 0 0 150px;
+    width: 150px;
+    height: 180px;
+  }
+
+  .episode img {
+    width: 150px;
+    height: 84px;
+  }
+
+  #episodes {
+    gap: 10px;
+    height: 220px;
+    padding: 12px 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ep-meta {
+    padding: 8px 6px;
+  }
+
+  .ep-title {
+    font-size: 18px;
+    margin-top: 4px;
+  }
+
+  .ep-season {
+    font-size: 12px;
+  }
+
+  .random-btn {
+    width: calc(100% - 16px);
+    max-width: 280px;
+    padding: 11px 20px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+
+  .suggestions {
+    max-height: 180px;
+    border-radius: 6px;
+  }
+
+  .suggestion-item {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .suggestion-thumb {
+    width: 35px;
+  }
+
+  .suggestion-title {
+    font-size: 0.9rem;
+  }
+
+  .suggestion-sub {
+    font-size: 11px;
+  }
+
+  .loader {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+
+  .empty-message,
+  .error-message {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
+
+/* Very small screens (320px - 380px) */
+@media (max-width: 380px) {
+  .hero {
+    height: 25vh;
+    min-height: 160px;
+  }
+
+  .hero-logo::before {
+    font-size: clamp(100px, 55vw, 160px);
+  }
+
+  .hero-sub {
+    font-size: 0.8rem;
+    padding: 0 10px;
+  }
+
+  .search-bar {
+    margin: 8px;
+    width: calc(100% - 16px);
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .carousel {
+    width: 98%;
+    padding: 10px 6px;
+    min-height: 220px;
+  }
+
+  .episode {
+    flex: 0 0 130px;
+    width: 130px;
+    height: 160px;
+  }
+
+  .episode img {
+    width: 130px;
+    height: 73px;
+  }
+
+  #episodes {
+    height: 200px;
+    gap: 8px;
+    padding: 10px 4px;
+  }
+
+  .ep-title {
+    font-size: 16px;
+  }
+
+  .ep-season {
+    font-size: 11px;
+  }
+
+  .random-btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    height: 100vh;
+    min-height: auto;
+  }
+
+  .hero-logo::before {
+    font-size: clamp(150px, 40vh, 250px);
+  }
+
+  .carousel {
+    position: relative;
+    top: auto;
+    margin-top: 12px;
+  }
+
+  #episodes {
+    height: 180px;
+  }
+
+  .episode {
+    height: 160px;
+  }
+}
+
+/* Touch devices optimization */
+@media (hover: none) and (pointer: coarse) {
+  .episode,
+  .random-btn,
+  .search-bar button,
+  .suggestion-item {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    touch-action: manipulation;
+  }
+
+  .episode:active {
+    transform: scale(0.97);
+  }
+
+  .random-btn:active {
+    transform: scale(0.98);
+  }
 }
 
 /* scroll bar styling (macOS/modern browsers) */

@@ -2,10 +2,11 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="La Table de Marie - Restaurant gastronomique à Paris">
   <title>La Table de Marie</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="restaurant-responsive.css">
 </head>
 <body class="bg-gray-50 text-gray-900">
   <section class="relative h-[100vh] flex items-center justify-center text-center text-white"
@@ -13,6 +14,7 @@
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
     <div class="relative z-10">
       <h1 class="text-5xl font-bold">La Table de Marie</h1>
+      <a href="menu.html" class="inline-block mt-6 px-12 py-3 border-2 border-white text-white hover:bg-white hover:text-gray-900 transition">Menu</a>
     </div>
   </section>
   <section class="py-16 container mx-auto px-6">
@@ -29,21 +31,7 @@
       </div>
     </div>
   </section>
-  <section class="py-16 text-center">
-    <h2 class="text-3xl font-bold mb-6">Notre Carte</h2>
-    <div class="container mx-auto px-6">
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <iframe src="menu.pdf" class="w-full h-[800px] border-0" title="Menu du restaurant">
-          Votre navigateur ne supporte pas les PDFs. Vous pouvez <a href="menu.pdf">télécharger le menu</a> à la place.
-        </iframe>
-      </div>
-      <div class="mt-4">
-        <a href="menu.pdf" download class="inline-flex items-center text-blue-600 hover:text-blue-800">
 
-        </a>
-      </div>
-    </div>
-  </section>
 <!-- Section Contact -->
 <section id="contact" class="py-20 bg-gray-100">
   <div class="container mx-auto px-6">
