@@ -382,6 +382,11 @@ img {
     grid-column: span 2;
 }
 
+/* Cards larges sur 2 colonnes */
+.card-wide {
+    grid-column: span 2;
+}
+
 /* Links & contact cards prennent 1 colonne par défaut */
 .links-card {
     grid-column: span 1;
@@ -712,6 +717,7 @@ img {
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1rem;
+    margin: 10px 0px;
     background: #7C8363;
     color: #fff;
     border-radius: 12px;
@@ -1158,7 +1164,8 @@ img {
     .project-card,
     .links-card,
     .contact-card,
-    .social-card {
+    .social-card,
+    .card-wide {
         grid-column: 1 / -1 !important;
     }
 
