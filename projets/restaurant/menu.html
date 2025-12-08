@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu - Restaurant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <div class="container mx-auto px-6">
         <div class="bg-white rounded-xl shadow-lg overflow-visible">
-            <iframe src="menu.pdf" class="w-full h-[800px] border-0" title="Menu du restaurant" style="display: block;">
-                Votre navigateur ne supporte pas les PDFs. Vous pouvez <a href="menu.pdf">télécharger le menu</a> à la place.
-            </iframe>
-        </div>
-        <div class="mt-4">
-            <a href="menu.pdf" download class="inline-flex items-center text-blue-600 hover:text-blue-800">
-            </a>
+            <div id="pdf-viewer" style="width: 100%; height: 800px; position: relative;">
+                <canvas id="pdf-canvas" style="display: block; width: 100%;"></canvas>
+            </div>
+            <div style="text-align: center; margin-top: 20px; padding: 10px;">
+                <button id="prev-btn" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">← Précédent</button>
+                <span id="page-info" style="margin: 0 20px;">Page <span id="current-page">1</span> / <span id="total-pages">0</span></span>
+                <button id="next-btn" style="padding: 10px 20px; margin-left: 10px; cursor: pointer;">Suivant →</button>
+            </div>
         </div>
     </div>
-    <a href="latabledemarie.html" class="back-button" style="position: absolute; top: 50px; left: 20px; background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Retour</a>
+    <div class="button-container">
+        <a href="latabledemarie.html" class="back-button">Retour</a>
+        <a href="menu.pdf" download class="download-button">Télécharger</a>
+    </div>
     <style>
         * {
             margin: 0;
@@ -33,54 +38,85 @@
         h2 {
             margin-bottom: 30px;
             font-size: 2.5rem;
-            text-align: center; /* Centre le titre */
+            text-align: center;
         }
 
-        .menu-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .menu-wrapper {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        iframe {
-            display: block;
-            width: 100%;
-            height: 800px;
-            border: none;
-            pointer-events: auto;
-        }
-
-        .download-btn {
-            display: inline-flex;
+        #pdf-viewer {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: #667eea;
+            justify-content: center;
+            background-color: #f0f0f0;
+            margin: 0 auto;
+            max-width: 900px;
+        }
+
+        #pdf-canvas {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            width: auto;
+            height: auto;
+        }
+
+        button {
+            background-color: #667eea;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 8px;
             font-weight: bold;
             transition: background 0.3s;
+            cursor: pointer;
         }
 
-        .download-btn:hover {
-            background: #764ba2;
+        button:hover {
+            background-color: #764ba2;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .button-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+            gap: 10px;
+        }
+
+        .back-button,
+        .download-button {
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .back-button {
+            background-color: #4CAF50;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .download-button {
+            background-color: #667eea;
+        }
+
+        .download-button:hover {
+            background-color: #764ba2;
         }
 
         @media (max-width: 768px) {
-            h2 {
-                font-size: 1.8rem;
-            }
-
             body {
-                padding-top: 80px;
+                padding-top: 70px;
                 overflow-x: hidden;
             }
 
@@ -90,12 +126,103 @@
                 max-width: 100%;
             }
 
-            iframe {
-                height: 700px !important;
-                pointer-events: auto;
-                touch-action: manipulation;
+            #pdf-viewer {
+                height: 500px !important;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            #page-info {
+                font-size: 14px;
+            }
+
+            .button-container {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .back-button,
+            .download-button {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
             }
         }
     </style>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let pdfDoc = null;
+        let currentPage = 1;
+
+        async function loadPdf() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument('menu.pdf').promise;
+                document.getElementById('total-pages').textContent = pdfDoc.numPages;
+                renderPage(currentPage);
+            } catch (error) {
+                console.error('Erreur au chargement du PDF:', error);
+            }
+        }
+
+        async function renderPage(pageNum) {
+            if (!pdfDoc) return;
+
+            const page = await pdfDoc.getPage(pageNum);
+            const scale = window.innerWidth < 768 ? 1.2 : 1.5;
+            const viewport = page.getViewport({ scale: scale });
+
+            const canvas = document.getElementById('pdf-canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+
+            await page.render(renderContext).promise;
+            document.getElementById('current-page').textContent = pageNum;
+            updateButtons();
+        }
+
+        function updateButtons() {
+            document.getElementById('prev-btn').disabled = currentPage <= 1;
+            document.getElementById('next-btn').disabled = currentPage >= pdfDoc.numPages;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentPage < pdfDoc.numPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        });
+
+        // Clavier pour naviguer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+            if (e.key === 'ArrowRight' && currentPage < pdfDoc.numPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        });
+
+        loadPdf();
+    </script>
 </body>
 </html>
