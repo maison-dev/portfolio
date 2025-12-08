@@ -29,8 +29,8 @@ img {
 /* Hero Section Responsive */
 .hero-section,
 section[style*="background-image"] {
-    min-height: 60vh !important;
-    height: clamp(60vh, 100vh, 100vh) !important;
+    min-height: 100vh !important;
+    height: 100vh !important;
 }
 
 /* Container responsive */
@@ -229,8 +229,8 @@ button {
 
     .hero-section,
     section[style*="background-image"] {
-        min-height: 50vh !important;
-        height: 70vh !important;
+        min-height: 100vh !important;
+        height: 100vh !important;
     }
 
     .grid {
@@ -266,8 +266,8 @@ button {
 
     .hero-section,
     section[style*="background-image"] {
-        min-height: 50vh !important;
-        height: 60vh !important;
+        min-height: 100vh !important;
+        height: 100vh !important;
     }
 
     h1 {
@@ -325,8 +325,8 @@ button {
 
     .hero-section,
     section[style*="background-image"] {
-        min-height: 50vh !important;
-        height: 60vh !important;
+        min-height: 100vh !important;
+        height: 100vh !important;
         background-attachment: scroll !important;
     }
 
@@ -383,6 +383,10 @@ button {
     #contact iframe[src*="google.com/maps"] {
         height: 280px !important;
         border-radius: 0.5rem;
+    }
+
+    #contact .h-96 {
+        height: auto !important;
     }
 
     iframe[src*=".pdf"] {

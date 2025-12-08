@@ -14,9 +14,22 @@
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
     <div class="relative z-10">
       <h1 class="text-5xl font-bold">La Table de Marie</h1>
-      <a href="menu.html" class="inline-block mt-6 px-12 py-3 border-2 border-white text-white hover:bg-white hover:text-gray-900 transition">Menu</a>
+      <button type="button" id="menuBtn" class="inline-block mt-6 px-12 py-3 border-2 border-white text-white hover:bg-white hover:text-gray-900 transition cursor-pointer bg-transparent">Menu</button>
     </div>
   </section>
+
+  <!-- Pop-up Menu PDF -->
+  <div id="menuPopup" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[200]" onclick="closeMenuPopup(event)">
+    <div class="relative bg-white rounded-lg w-[95%] h-[95%] max-w-5xl max-h-[95vh] flex flex-col" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-2xl font-bold">Notre Menu</h3>
+        <button onclick="closeMenuPopup()" class="text-3xl hover:text-red-600 transition">&times;</button>
+      </div>
+      <div class="flex-1 overflow-hidden p-4">
+        <iframe src="menu.pdf" class="w-full h-full border-0 rounded"></iframe>
+      </div>
+    </div>
+  </div>
   <section class="py-16 container mx-auto px-6">
     <h2 class="text-3xl font-bold text-center mb-8">Nos Plats</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -164,6 +177,37 @@
     document.addEventListener('click', function(event) {
         const lightbox = document.getElementById('imageLightbox');
         if (lightbox && event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Fonctions pour la pop-up du menu
+    function openMenuPopup(e) {
+        if (e) e.preventDefault();
+        const popup = document.getElementById('menuPopup');
+        popup.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenuPopup(event) {
+        if (!event || event.target.id === 'menuPopup') {
+            const popup = document.getElementById('menuPopup');
+            popup.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Attacher l'événement au bouton Menu
+    document.getElementById('menuBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openMenuPopup(e);
+    });
+
+    // Fermer avec la touche Échap
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeMenuPopup();
             closeLightbox();
         }
     });
