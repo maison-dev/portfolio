@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Page principale - Convertisseur PDF -->
+    <url>
+        <loc>https://votresite.com/</loc>
+        <lastmod>2024-12-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- 
+    =========================================
+    INSTRUCTIONS POUR AJOUTER D'AUTRES PAGES
+    =========================================
+    
+    Si vous ajoutez d'autres pages, copiez ce modèle :
+    
+    <url>
+        <loc>https://votresite.com/nom-de-la-page/</loc>
+        <lastmod>2024-12-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    Valeurs de priority :
+    - 1.0 : Page d'accueil
+    - 0.8 : Pages principales
+    - 0.6 : Pages secondaires
+    - 0.4 : Pages tertiaires
+    
+    Valeurs de changefreq :
+    - always : Contenu qui change constamment
+    - hourly : Mise à jour toutes les heures
+    - daily : Mise à jour quotidienne
+    - weekly : Mise à jour hebdomadaire
+    - monthly : Mise à jour mensuelle
+    - yearly : Mise à jour annuelle
+    - never : Contenu archivé
+    -->
+    
+</urlset>
