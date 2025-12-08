@@ -9,13 +9,11 @@
 <body>
     <div class="container mx-auto px-6">
         <div class="bg-white rounded-xl shadow-lg overflow-visible">
-            <div id="pdf-viewer" style="width: 100%; height: 800px; position: relative;">
-                <canvas id="pdf-canvas" style="display: block; width: 100%;"></canvas>
-            </div>
-            <div style="text-align: center; margin-top: 20px; padding: 10px;">
-                <button id="prev-btn" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">← Précédent</button>
-                <span id="page-info" style="margin: 0 20px;">Page <span id="current-page">1</span> / <span id="total-pages">0</span></span>
-                <button id="next-btn" style="padding: 10px 20px; margin-left: 10px; cursor: pointer;">Suivant →</button>
+            <div id="pdf-viewer"></div>
+            <div style="text-align: center; margin-top: 20px; padding: 10px; position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); background-color: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); border-radius: 10px 10px 0 0; width: 100%;">
+                <button id="zoom-out-btn" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">− Zoom</button>
+                <span id="page-info" style="margin: 0 20px;">Total: <span id="total-pages">0</span> pages</span>
+                <button id="zoom-in-btn" style="padding: 10px 20px; margin-left: 10px; cursor: pointer;">+ Zoom</button>
             </div>
         </div>
     </div>
@@ -32,7 +30,6 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh;
         }
 
         h2 {
@@ -43,19 +40,20 @@
 
         #pdf-viewer {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             background-color: #f0f0f0;
             margin: 0 auto;
             max-width: 900px;
+            padding: 20px 0;
+            gap: 20px;
         }
 
-        #pdf-canvas {
-            max-width: 100%;
-            max-height: 100%;
+        .pdf-page-canvas {
             display: block;
             width: auto;
             height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         button {
@@ -124,10 +122,20 @@
                 position: relative;
                 z-index: 10;
                 max-width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
             }
 
             #pdf-viewer {
-                height: 500px !important;
+                max-width: 100%;
+                overflow-x: hidden;
+                padding: 10px 0;
+            }
+
+            .pdf-page-canvas {
+                max-width: 100%;
+                height: auto !important;
+                width: 100% !important;
             }
 
             button {
@@ -157,68 +165,69 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         let pdfDoc = null;
-        let currentPage = 1;
+        let currentScale = window.innerWidth < 768 ? 1.0 : 1.5;
 
         async function loadPdf() {
             try {
                 pdfDoc = await pdfjsLib.getDocument('menu.pdf').promise;
                 document.getElementById('total-pages').textContent = pdfDoc.numPages;
-                renderPage(currentPage);
+                await renderAllPages();
             } catch (error) {
                 console.error('Erreur au chargement du PDF:', error);
             }
         }
 
-        async function renderPage(pageNum) {
+        async function renderAllPages() {
             if (!pdfDoc) return;
 
-            const page = await pdfDoc.getPage(pageNum);
-            const scale = window.innerWidth < 768 ? 1.2 : 1.5;
-            const viewport = page.getViewport({ scale: scale });
+            const viewer = document.getElementById('pdf-viewer');
+            viewer.innerHTML = ''; // Vider le container
 
-            const canvas = document.getElementById('pdf-canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                const page = await pdfDoc.getPage(pageNum);
+                const viewport = page.getViewport({ scale: currentScale });
 
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-page-canvas';
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-            await page.render(renderContext).promise;
-            document.getElementById('current-page').textContent = pageNum;
-            updateButtons();
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                await page.render(renderContext).promise;
+                viewer.appendChild(canvas);
+            }
         }
 
-        function updateButtons() {
-            document.getElementById('prev-btn').disabled = currentPage <= 1;
-            document.getElementById('next-btn').disabled = currentPage >= pdfDoc.numPages;
-        }
-
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderPage(currentPage);
-            }
+        // Zoom in
+        document.getElementById('zoom-in-btn').addEventListener('click', () => {
+            currentScale += 0.2;
+            if (currentScale > 3) currentScale = 3; // Limite max
+            renderAllPages();
         });
 
-        document.getElementById('next-btn').addEventListener('click', () => {
-            if (currentPage < pdfDoc.numPages) {
-                currentPage++;
-                renderPage(currentPage);
-            }
+        // Zoom out
+        document.getElementById('zoom-out-btn').addEventListener('click', () => {
+            currentScale -= 0.2;
+            if (currentScale < 0.5) currentScale = 0.5; // Limite min
+            renderAllPages();
         });
 
-        // Clavier pour naviguer
+        // Clavier pour zoom
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' && currentPage > 1) {
-                currentPage--;
-                renderPage(currentPage);
+            if (e.key === '+' || e.key === '=') {
+                currentScale += 0.2;
+                if (currentScale > 3) currentScale = 3;
+                renderAllPages();
             }
-            if (e.key === 'ArrowRight' && currentPage < pdfDoc.numPages) {
-                currentPage++;
-                renderPage(currentPage);
+            if (e.key === '-') {
+                currentScale -= 0.2;
+                if (currentScale < 0.5) currentScale = 0.5;
+                renderAllPages();
             }
         });
 
