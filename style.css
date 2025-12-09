@@ -65,7 +65,8 @@ body {
     --color-border: var(--color-border-dark);
 }
 
-/* Mode Clair - classe optionnelle */
+/* Mode Clair - classe optionnelle (sur html OU body pour éviter flash) */
+html.light-mode,
 body.light-mode {
     --color-bg: var(--color-bg-light);
     --color-bg-card: var(--color-bg-card-light);
@@ -73,27 +74,36 @@ body.light-mode {
     --color-text-muted: var(--color-text-muted-light);
     --color-border: var(--color-border-light);
     --color-accent: var(--color-accent-light);
+}
+
+html.light-mode body,
+body.light-mode {
     background-color: #CADCFC;
 }
 
+html.light-mode .header,
 body.light-mode .header {
     background-color: rgba(202, 220, 252, 0.57);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
 
+html.light-mode .bento-card,
 body.light-mode .bento-card {
     background-color: #8AB6F9;
 }
 
+html.light-mode .card-icon,
 body.light-mode .card-icon {
     color: #00246B;
 }
 
+html.light-mode .bento-card h3,
 body.light-mode .bento-card h3 {
     color: white;
 }
 
+html.light-mode .profile-info h1.name,
 body.light-mode .profile-info h1.name {
     color: #00246B;
     background: none;
@@ -348,6 +358,15 @@ img {
     box-shadow: var(--shadow-md);
     transition: all var(--transition-smooth);
     position: relative;
+    /* Animation au scroll - caché par défaut */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Cartes visibles après animation */
+.bento-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);;
     overflow: hidden;
     align-content: start;
 }

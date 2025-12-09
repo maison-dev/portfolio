@@ -34,9 +34,11 @@ function initTheme() {
  */
 function applyTheme(theme) {
     if (theme === 'light') {
+        document.documentElement.classList.add('light-mode');
         bodyElement.classList.add('light-mode');
         updateThemeIcon('sun');
     } else {
+        document.documentElement.classList.remove('light-mode');
         bodyElement.classList.remove('light-mode');
         updateThemeIcon('moon');
     }
@@ -255,10 +257,14 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
  * Détecte les éléments visibles et ajoute des animations
  */
 function observeElements() {
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
+                // Appliquer l'animation et marquer comme visible
                 entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                entry.target.classList.add('is-visible');
+                // Ne plus observer cet élément (animation unique)
+                obs.unobserve(entry.target);
             }
         });
     }, {
