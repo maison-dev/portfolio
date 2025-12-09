@@ -26,7 +26,33 @@ const newConversionBtn = document.getElementById('newConversionBtn');
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     initEventListeners();
+    initBackToTop();
 });
+
+// ==========================================
+// BOUTON RETOUR EN HAUT
+// ==========================================
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('backToTop');
+    if (!backToTopBtn) return;
+    
+    // Afficher/masquer le bouton selon le scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    }, { passive: true });
+    
+    // Remonter en haut au clic
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
 
 // ==========================================
 // EVENT LISTENERS
