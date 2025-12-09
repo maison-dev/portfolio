@@ -13,25 +13,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER SECTION -->
-        <header class="header">
-            <div class="header-content">
-                <div class="profile-section">
-                    <div class="profile-info">
-                        <h1 class="name">Maison.dev2025</h1>
-                        <p class="subtitle">Développeur web créatif et passionné</p>
-                    </div>
-                </div>
-                <div style="display: flex; gap: var(--spacing-sm); align-items: center;">
-                    <!-- Theme Toggle Button -->
-                    <button class="theme-toggle" id="themeToggle" title="Basculer le thème">
-                        <i class="fas fa-moon"></i>
-                    </button>
+    <!-- HEADER SECTION (hors du container pour sticky) -->
+    <header class="header">
+        <div class="header-content">
+            <div class="profile-section">
+                <div class="profile-info">
+                    <h1 class="name">Maison.dev2025</h1>
+                    <p class="subtitle">Développeur web créatif et passionné</p>
                 </div>
             </div>
-        </header>
+            <div style="display: flex; gap: var(--spacing-sm); align-items: center;">
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" id="themeToggle" title="Basculer le thème">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
 
+    <div class="container">
         <!-- BENTO GRID SECTION -->
         <main class="bento-grid">
             <!-- PROJET 1 - La Table de Marie -->
@@ -75,6 +75,20 @@
                     <span class="tag">JavaScript</span>
                 </div>
                 <a target="_blank" rel="noopener noreferrer" href="projets/Pix'art/index.html" class="card-link">Créer <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <!-- PROJET 4 - FindFlix -->
+            <article class="bento-card project-card card-wide">
+                <div class="card-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>FindFlix</h3>
+                <p>Recherche de séries TV avec sélection aléatoire d'épisodes. Interface moderne avec autocomplétion et Top 20.</p>
+                <div class="card-tags">
+                    <span class="tag">API TVMaze</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+                <a target="_blank" rel="noopener noreferrer" href="projets/FindFlix/FindFlix.html" class="card-link">Explorer <i class="fas fa-arrow-right"></i></a>
             </article>
 
             <!-- LIENS CARD -->

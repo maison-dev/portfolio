@@ -77,7 +77,9 @@ body.light-mode {
 }
 
 body.light-mode .header {
-    background-color: #CADCFC;
+    background-color: rgba(202, 220, 252, 0.57);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 body.light-mode .bento-card {
@@ -166,6 +168,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     min-height: 100vh;
+    padding-top: 80px; /* Compenser la hauteur du header fixe */
 }
 
 a {
@@ -220,17 +223,22 @@ img {
    ============================================ */
 
 .header {
-    margin-bottom: var(--spacing-2xl);
-    animation: fadeInDown 0.6s ease-out;
-    position: sticky;
+    position: fixed;
     top: 0;
-    background: #31473A;
-    z-index: 100;
-    padding: var(--spacing-md) 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(49, 71, 58, 0.574);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: var(--spacing-md) var(--spacing-lg);
     border-bottom: 1px solid var(--color-border);
+    animation: fadeInDown 0.6s ease-out;
 }
 
 .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -981,11 +989,7 @@ img {
     }
 
     .header {
-        padding: var(--spacing-sm) 0;
-        position: sticky;
-        top: 0;
-        background: var(--color-bg);
-        z-index: 100;
+        padding: var(--spacing-sm) var(--spacing-md);
     }
 
     .header-content {
@@ -1089,19 +1093,17 @@ img {
         font-size: 15px;
     }
 
+    body {
+        padding-top: 60px;
+    }
+
     .container {
         padding: var(--spacing-sm);
         max-width: 100%;
     }
 
     .header {
-        padding: var(--spacing-xs) 0;
-        margin-bottom: var(--spacing-md);
-        position: sticky;
-        top: 0;
-        background: var(--color-bg);
-        z-index: 100;
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 
     .header-content {
@@ -1299,7 +1301,7 @@ img {
     }
 
     .header {
-        padding: 0.5rem 0;
+        padding: 0.5rem var(--spacing-sm);
     }
 
     .profile-info h1.name {
@@ -1337,10 +1339,6 @@ img {
 
 /* Orientation paysage sur mobile */
 @media (max-height: 500px) and (orientation: landscape) {
-    .header {
-        position: sticky;
-        top: 0;
-    }
 
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1458,6 +1456,7 @@ img {
     display: none !important;
 }
 
+/* Fix pour Google Translate qui ajoute un top */
 body {
     top: 0 !important;
 }

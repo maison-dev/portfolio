@@ -8,7 +8,6 @@
 // ============================================
 
 const themeToggle = document.getElementById('themeToggle');
-const htmlElement = document.documentElement;
 const bodyElement = document.body;
 
 /**
