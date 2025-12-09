@@ -239,7 +239,7 @@ img {
     right: 0;
     z-index: 1000;
     background: rgba(49, 71, 58, 0.574);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(12px);
     padding: var(--spacing-md) var(--spacing-lg);
     border-bottom: 1px solid var(--color-border);
@@ -925,6 +925,7 @@ img {
     .container {
         max-width: 1400px;
         padding: var(--spacing-xl);
+        
     }
 
     .bento-grid {
@@ -1113,7 +1114,7 @@ img {
     }
 
     body {
-        padding-top: 60px;
+        padding-top: 1300px;
     }
 
     .container {
@@ -1382,100 +1383,4 @@ img {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-}
-
-/* ============================================
-   GOOGLE TRANSLATE WIDGET
-   ============================================ */
-
-#google_translate_element {
-    display: flex;
-    align-items: center;
-}
-
-.goog-te-gadget {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    margin: 0 !important;
-}
-
-.goog-te-gadget-simple {
-    background: var(--color-bg-card) !important;
-    border: 1px solid var(--color-border) !important;
-    border-radius: var(--radius-md) !important;
-    padding: 0.5rem 0.75rem !important;
-    box-shadow: var(--shadow-sm) !important;
-    display: flex;
-    align-items: center;
-}
-
-.goog-te-gadget-simple .goog-te-combo {
-    background: var(--color-bg-card) !important;
-    border: none !important;
-    color: var(--color-accent) !important;
-    font-size: 0.9rem !important;
-    padding: 0.4rem !important;
-    cursor: pointer;
-    font-weight: 600 !important;
-}
-
-.goog-te-gadget-simple .goog-te-combo:hover {
-    background: var(--color-accent) !important;
-    color: white !important;
-}
-
-.goog-te-gadget-simple a.goog-te-menu-value {
-    color: var(--color-accent) !important;
-}
-
-.goog-te-gadget-simple a.goog-te-menu-value span {
-    border: none !important;
-    color: var(--color-accent) !important;
-}
-
-/* Masquer le logo Google */
-.goog-te-gadget-simple .goog-te-menu-value {
-    background-image: none !important;
-}
-
-.goog-te-gadget img {
-    display: none !important;
-}
-
-/* Style de la popup de langue */
-.goog-te-menu2 {
-    background: #000000 !important;
-    border: 1px solid #333333 !important;
-    border-radius: var(--radius-md) !important;
-    box-shadow: var(--shadow-lg) !important;
-}
-
-.goog-te-menu2 td {
-    background: #000000 !important;
-}
-
-.goog-te-menu2 .goog-te-menu2-item {
-    color: #ffffff !important;
-}
-
-.goog-te-menu2 .goog-te-menu2-item:hover {
-    background: var(--color-accent) !important;
-    color: white !important;
-}
-
-.goog-te-menu2 .goog-te-menu2-item div {
-    color: #ffffff !important;
-}
-
-.goog-te-menu2 .goog-te-menu2-item:hover div {
-    color: white !important;
-}
-
-/* Masquer la barre de notification de traduction */
-.goog-te-banner {
-    display: none !important;
-}
-
-/* Fix pour Google Translate qui ajoute un top */
-body {
-    top: 0 !important;
 }
