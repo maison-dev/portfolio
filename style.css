@@ -178,7 +178,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     min-height: 100vh;
-    padding-top: 80px; /* Compenser la hauteur du header fixe */
+    padding-top: 100px; /* Compenser la hauteur du header fixe */
 }
 
 a {
@@ -923,7 +923,7 @@ img {
 /* Grand écran (HD et plus) */
 @media (min-width: 1440px) {
     .container {
-        max-width: 1400px;
+        max-width: 1300px;
         padding: var(--spacing-xl);
         
     }
@@ -1061,7 +1061,7 @@ img {
     }
 
     .links-card {
-        grid-column: span 2;
+        grid-column: span 1;
     }
 
     .bento-card {
@@ -1114,7 +1114,7 @@ img {
     }
 
     body {
-        padding-top: 1300px;
+        padding-top: 60px;
     }
 
     .container {
