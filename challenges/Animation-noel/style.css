@@ -430,7 +430,7 @@ body {
 
 /* Montagne droite - grande */
 .mountain-3 {
-    right: -20%;
+    right: -50%;
     border-width: 0 320px 480px 320px;
     border-color: transparent transparent #2d3844 transparent;
     filter: brightness(0.65);
@@ -1474,27 +1474,249 @@ body {
 /* ============================================
    Responsive
    ============================================ */
+@media (max-width: 1024px) {
+    .tree {
+        width: 280px;
+        height: 400px;
+    }
+    
+    .tree-layer-1 {
+        border-width: 0 140px 170px 140px;
+    }
+    
+    .tree-layer-2 {
+        border-width: 0 110px 140px 110px;
+        bottom: 165px;
+    }
+    
+    .tree-layer-3 {
+        border-width: 0 75px 110px 75px;
+        bottom: 270px;
+    }
+    
+    .gifts {
+        width: 280px;
+    }
+}
+
 @media (max-width: 768px) {
     .tree {
-        transform: translateX(-50%) scale(0.7);
+        width: 240px;
+        height: 350px;
+        bottom: 15%;
+    }
+    
+    .trunk {
+        width: 45px;
+        height: 60px;
+    }
+    
+    .tree-layer-1 {
+        border-width: 0 120px 150px 120px;
+        bottom: 55px;
+    }
+    
+    .tree-layer-2 {
+        border-width: 0 95px 120px 95px;
+        bottom: 155px;
+    }
+    
+    .tree-layer-3 {
+        border-width: 0 65px 95px 65px;
+        bottom: 240px;
+    }
+    
+    .tree-star {
+        width: 35px;
+        height: 35px;
     }
     
     .greeting {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        top: 5%;
+    }
+    
+    .moon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .gifts {
+        width: 240px;
+        bottom: 15%;
+    }
+    
+    .gift-1 { width: 45px; height: 38px; left: 8px; }
+    .gift-2 { width: 35px; height: 45px; left: 60px; }
+    .gift-3 { width: 32px; height: 27px; right: 65px; }
+    .gift-4 { width: 40px; height: 34px; right: 15px; }
+    .gift-5 { width: 25px; height: 32px; bottom: 38px; left: 30px; }
+    .gift-6 { width: 28px; height: 23px; bottom: 35px; right: 45px; }
+    .gift-7 { width: 23px; height: 28px; bottom: 27px; left: 95px; }
+    .gift-8 { width: 38px; height: 32px; bottom: 48px; right: 80px; }
+    
+    /* Réduire les arbres secondaires */
+    .small-tree {
+        transform: scale(0.8);
+    }
+    
+    .mountains {
+        height: 60%;
+    }
+}
+
+@media (max-width: 480px) {
+    .scene {
+        overflow-x: hidden;
+    }
+    
+    .tree {
+        width: 200px;
+        height: 300px;
+        bottom: 15%;
+    }
+    
+    .trunk {
+        width: 38px;
+        height: 50px;
+    }
+    
+    .tree-layer-1 {
+        border-width: 0 100px 130px 100px;
+        bottom: 45px;
+    }
+    
+    .tree-layer-1::after {
+        border-width: 0 90px 90px 90px;
+        left: -90px;
+    }
+    
+    .tree-layer-2 {
+        border-width: 0 80px 105px 80px;
+        bottom: 135px;
+    }
+    
+    .tree-layer-3 {
+        border-width: 0 55px 80px 55px;
+        bottom: 210px;
+    }
+    
+    .tree-star {
+        width: 30px;
+        height: 30px;
+        top: -12px;
+    }
+    
+    .ornament {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .light {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .greeting {
+        font-size: 1.4rem;
+        top: 8%;
     }
     
     .moon {
         width: 50px;
         height: 50px;
+        top: 5%;
+        right: 5%;
+    }
+    
+    .gifts {
+        width: 200px;
+        bottom: 15%;
+    }
+    
+    .gift-1 { width: 38px; height: 32px; left: 5px; }
+    .gift-2 { width: 30px; height: 38px; left: 50px; }
+    .gift-3 { width: 28px; height: 23px; right: 55px; }
+    .gift-4 { width: 35px; height: 28px; right: 12px; }
+    .gift-5 { width: 22px; height: 28px; bottom: 32px; left: 25px; }
+    .gift-6 { width: 24px; height: 20px; bottom: 30px; right: 38px; }
+    .gift-7 { width: 20px; height: 24px; bottom: 23px; left: 78px; }
+    .gift-8 { width: 32px; height: 28px; bottom: 40px; right: 65px; }
+    
+    /* Cacher certains arbres secondaires sur petit écran */
+    .tree-left-3,
+    .tree-left-4,
+    .tree-left-5,
+    .tree-left-6,
+    .tree-right-3,
+    .tree-right-4,
+    .tree-right-5,
+    .tree-right-6,
+    .tree-center-left,
+    .tree-center-right {
+        display: none;
+    }
+    
+    .small-tree {
+        transform: scale(0.6);
+    }
+    
+    .mountains {
+        height: 55%;
+    }
+    
+    .ground {
+        height: 18%;
+    }
+    
+    /* Ajustement des montagnes pour mobile */
+    .mountain-1 {
+        left: -50%;
+    }
+    
+    /* Réduire la neige sur mobile */
+    .snow-layer-4 {
+        display: none;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 360px) {
     .tree {
-        transform: translateX(-50%) scale(0.5);
+        width: 170px;
+        height: 260px;
+        bottom: 18%;
+    }
+    
+    .tree-layer-1 {
+        border-width: 0 85px 110px 85px;
+        bottom: 40px;
+    }
+    
+    .tree-layer-2 {
+        border-width: 0 68px 90px 68px;
+        bottom: 115px;
+    }
+    
+    .tree-layer-3 {
+        border-width: 0 47px 68px 47px;
+        bottom: 180px;
     }
     
     .greeting {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
+    
+    .gifts {
+        width: 170px;
+        bottom: 18%;
+    }
+    
+    .gift-1 { width: 32px; height: 28px; }
+    .gift-2 { width: 26px; height: 32px; }
+    .gift-3 { width: 24px; height: 20px; }
+    .gift-4 { width: 30px; height: 24px; }
+    .gift-5 { width: 19px; height: 24px; }
+    .gift-6 { width: 21px; height: 17px; }
+    .gift-7 { width: 17px; height: 21px; }
+    .gift-8 { width: 28px; height: 24px; }
 }
